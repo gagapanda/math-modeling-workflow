@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/matlab-validation.schema.json",
+  "title": "Hash-bound MATLAB MCP validation evidence",
+  "type": "object",
+  "required": ["schema_version", "status", "runner", "step_name", "validated_at", "checks", "file_sha256", "notes"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "status": {"const": "passed"},
+    "runner": {"const": "matlab-mcp"},
+    "step_name": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+    "validated_at": {"type": "string", "minLength": 1},
+    "checks": {
+      "type": "object",
+      "required": ["code_analyzer", "script_execution", "unit_tests"],
+      "additionalProperties": false,
+      "properties": {
+        "code_analyzer": {"const": "passed"},
+        "script_execution": {"const": "passed"},
+        "unit_tests": {"enum": ["passed", "not_applicable"]}
+      }
+    },
+    "file_sha256": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "notes": {"type": "string"}
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/timed-rehearsal-review.schema.json",
+  "title": "Timed rehearsal closure review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rehearsal_id", "plan_sha256", "log_sha256", "closed_at", "record_complete", "record_scope", "deadline_met", "elapsed_minutes", "result_assessment", "phase_summary", "fault_summary", "event_counts", "scorecard", "improvements", "no_durable_change", "unresolved_blockers", "closure_notes"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "rehearsal_id": {"type": "string", "minLength": 1},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "log_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "closed_at": {"type": "string", "minLength": 1},
+    "record_complete": {"type": "boolean", "const": true},
+    "record_scope": {"type": "string", "const": "Record closure does not validate the model, paper, or submission package."},
+    "deadline_met": {"type": "boolean"},
+    "elapsed_minutes": {"type": "integer", "minimum": 0},
+    "result_assessment": {"type": "string", "enum": ["not-assessed", "incomplete", "complete-unverified", "verified"]},
+    "phase_summary": {
+      "type": "array", "minItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "planned_minutes", "actual_minutes", "event_count"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "planned_minutes": {"type": "integer", "minimum": 1},
+          "actual_minutes": {"type": "integer", "minimum": 0},
+          "event_count": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "fault_summary": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "injection_event", "recovery_event", "recovery_minutes"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "injection_event": {"type": "integer", "minimum": 1},
+          "recovery_event": {"type": "integer", "minimum": 1},
+          "recovery_minutes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "event_counts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["milestone", "failure", "rework", "decision", "fault-injection", "recovery"],
+      "properties": {
+        "milestone": {"type": "integer", "minimum": 0},
+        "failure": {"type": "integer", "minimum": 0},
+        "rework": {"type": "integer", "minimum": 0},
+        "decision": {"type": "integer", "minimum": 0},
+        "fault-injection": {"type": "integer", "minimum": 0},
+        "recovery": {"type": "integer", "minimum": 0}
+      }
+    },
+    "scorecard": {
+      "type": "array", "minItems": 9,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "status", "event_sequences", "notes"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "enum": ["pass", "fail", "not-applicable"]},
+          "event_sequences": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1}, "uniqueItems": true},
+          "notes": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "improvements": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "source_event_sequences", "statement", "owner", "priority", "acceptance_criterion", "destination", "decision", "rationale", "due_date", "status"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,79}$"},
+          "source_event_sequences": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1}, "uniqueItems": true},
+          "statement": {"type": "string", "minLength": 1},
+          "owner": {"type": "string", "minLength": 1},
+          "priority": {"type": "string", "enum": ["P0", "P1", "P2", "reject"]},
+          "acceptance_criterion": {"type": "string", "minLength": 1},
+          "destination": {"type": "string", "enum": ["skill", "reference", "template", "script", "test", "case", "none"]},
+          "decision": {"type": "string", "enum": ["adopt", "defer", "reject"]},
+          "rationale": {"type": "string", "minLength": 1},
+          "due_date": {"type": ["string", "null"]},
+          "status": {"type": "string", "enum": ["open", "verified", "closed"]}
+        }
+      }
+    },
+    "no_durable_change": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["event_sequence", "rationale"],
+        "properties": {
+          "event_sequence": {"type": "integer", "minimum": 1},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "unresolved_blockers": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "closure_notes": {"type": "string", "minLength": 1}
+  }
+}

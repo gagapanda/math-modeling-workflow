@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-review-result.schema.json",
+  "title": "Workflow migration review and controlled-export result",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "case_dir",
+    "source_manifest_path", "source_manifest_sha256",
+    "source_manifest_unchanged", "applicable", "status",
+    "rehearsal_passed", "case_steps_executed",
+    "external_tools_started", "review_complete",
+    "base_candidate_sha256", "final_candidate_sha256",
+    "review_template", "candidate_manifest", "files_written",
+    "output_path", "errors", "warnings",
+    "diagnostics_schema_version", "diagnostics", "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "review_workflow_migration"},
+    "mode": {"enum": ["preview", "write_review_template", "validate_review", "export_candidate"]},
+    "case_dir": {"type": "string", "minLength": 1},
+    "source_manifest_path": {"type": "string", "minLength": 1},
+    "source_manifest_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "source_manifest_unchanged": {"type": "boolean"},
+    "applicable": {"type": "boolean"},
+    "status": {"enum": ["preview_ready", "template_written", "review_validated", "candidate_written", "not_applicable", "failed"]},
+    "rehearsal_passed": {"type": "boolean"},
+    "case_steps_executed": {"const": false},
+    "external_tools_started": {"const": false},
+    "review_complete": {"type": "boolean"},
+    "base_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "final_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "review_template": {"type": ["object", "null"]},
+    "candidate_manifest": {"type": ["object", "null"]},
+    "files_written": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "output_path": {"type": ["string", "null"]},
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}}
+  }
+}

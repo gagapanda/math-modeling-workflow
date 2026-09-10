@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/result-freeze-plan.schema.json",
+  "title": "F1 result-freeze plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "freeze_id", "result_register", "files", "replay_evidence", "limitations", "unresolved"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "freeze_id": {"type": "string", "minLength": 1},
+    "result_register": {"type": "string", "minLength": 1},
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "kind"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "kind": {
+            "type": "string",
+            "enum": ["source", "input", "profile", "cleaning", "definition", "code", "environment", "command", "result-register", "result", "validation", "sensitivity", "failure", "replay", "figure", "figure-manifest"]
+          }
+        }
+      }
+    },
+    "replay_evidence": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

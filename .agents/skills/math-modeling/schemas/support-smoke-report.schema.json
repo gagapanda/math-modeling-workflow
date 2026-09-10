@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/support-smoke-report.schema.json",
+  "title": "Support package smoke report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "package", "plan", "package_sha256", "package_bytes", "archive_members", "tests", "errors", "passed"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "package": {"type": "string", "minLength": 1},
+    "plan": {"type": "string", "minLength": 1},
+    "package_sha256": {"type": ["string", "null"]},
+    "package_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "archive_members": {"type": "array", "items": {"type": "string"}},
+    "tests": {"type": "array", "items": {"$ref": "#/$defs/test"}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "passed": {"type": "boolean"}
+  },
+  "$defs": {
+    "test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "command", "cwd", "expected_outputs", "timeout_seconds", "exit_code", "timed_out", "stdout_bytes", "stderr_bytes", "stdout_sha256", "stderr_sha256", "missing_outputs", "elapsed_seconds", "errors"],
+      "properties": {
+        "name": {"type": "string"},
+        "command": {"type": "array", "items": {"type": "string"}},
+        "cwd": {"type": "string"},
+        "expected_outputs": {"type": "array", "items": {"type": "string"}},
+        "timeout_seconds": {"type": "integer", "minimum": 1},
+        "exit_code": {"type": ["integer", "null"]},
+        "timed_out": {"type": "boolean"},
+        "stdout_bytes": {"type": "integer", "minimum": 0},
+        "stderr_bytes": {"type": "integer", "minimum": 0},
+        "stdout_sha256": {"type": ["string", "null"]},
+        "stderr_sha256": {"type": ["string", "null"]},
+        "missing_outputs": {"type": "array", "items": {"type": "string"}},
+        "elapsed_seconds": {"type": ["number", "null"], "minimum": 0},
+        "errors": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

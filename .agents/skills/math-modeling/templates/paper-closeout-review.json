@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "pending",
+  "reviewer": "",
+  "reviewed_at": "",
+  "artifacts": {
+    "source": {
+      "path": "paper/full-paper.md",
+      "sha256": ""
+    },
+    "docx": {
+      "path": "paper/paper.docx",
+      "sha256": ""
+    },
+    "pdf": {
+      "path": "paper/paper.pdf",
+      "sha256": ""
+    }
+  },
+  "reviews": {
+    "reviewer_reconstruction": {
+      "status": "pending",
+      "findings": "",
+      "evidence": []
+    },
+    "references": {
+      "status": "pending",
+      "findings": "",
+      "evidence": []
+    },
+    "ai_disclosure": {
+      "status": "pending",
+      "findings": "",
+      "evidence": []
+    },
+    "anonymity": {
+      "status": "pending",
+      "findings": "",
+      "evidence": []
+    }
+  }
+}

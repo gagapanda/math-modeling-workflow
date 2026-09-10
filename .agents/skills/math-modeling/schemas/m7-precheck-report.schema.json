@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/m7-precheck-report.schema.json",
+  "title": "M7 local delivery precheck report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "scope", "m7_precheck_passed", "official_submission_status", "paths", "checks", "package", "support_smoke", "evidence_sha256", "errors"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "const": "m7_precheck_only"},
+    "m7_precheck_passed": {"type": "boolean"},
+    "official_submission_status": {"type": "string", "const": "NOT_FORMAL_F2"},
+    "paths": {"type": "object", "additionalProperties": {"type": "string"}},
+    "checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "package": {"type": "object"},
+    "support_smoke": {"type": "object"},
+    "evidence_sha256": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/binding"}},
+    "errors": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

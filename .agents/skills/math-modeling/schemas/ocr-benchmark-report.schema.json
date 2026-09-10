@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/ocr-benchmark-report.schema.json",
+  "title": "Scored selected-page OCR benchmark",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "scored_at", "bindings", "configuration", "body_text", "formulas", "thresholds", "decisions", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"enum": ["provisional", "final"]},
+    "scored_at": {"type": "string", "minLength": 1},
+    "bindings": {"type": "object"},
+    "configuration": {"type": "object"},
+    "body_text": {"type": "object"},
+    "formulas": {"type": "object"},
+    "thresholds": {"type": "object"},
+    "decisions": {"type": "object"},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  }
+}

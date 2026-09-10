@@ -1,0 +1,4 @@
+interface:
+  display_name: "数学建模竞赛"
+  short_description: "覆盖读题、建模、验证、论文生产与投稿质检的完整工作流"
+  default_prompt: "Use $math-modeling to solve a competition problem, validate every result, and produce submission-ready artifacts."

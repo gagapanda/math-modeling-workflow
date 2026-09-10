@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-readiness.schema.json",
+  "title": "Passive cross-case workflow migration readiness report",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "workspace_root", "status",
+    "files_written", "case_steps_executed", "external_tools_started",
+    "cases", "recommended_case", "ranking_policy", "summary", "errors",
+    "warnings", "diagnostics_schema_version", "diagnostics",
+    "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "summarize_workflow_migration_readiness"},
+    "mode": {"const": "passive_read_only"},
+    "workspace_root": {"type": "string", "minLength": 1},
+    "status": {"enum": ["ready", "no_applicable_cases", "failed"]},
+    "files_written": {"const": false},
+    "case_steps_executed": {"const": false},
+    "external_tools_started": {"const": false},
+    "cases": {"type": "array", "items": {"$ref": "#/$defs/case"}},
+    "recommended_case": {"type": ["string", "null"]},
+    "ranking_policy": {
+      "type": "object",
+      "required": ["method", "fields", "meaning", "not_assessed"],
+      "additionalProperties": false,
+      "properties": {
+        "method": {"const": "ascending_lexicographic"},
+        "fields": {
+          "type": "array",
+          "const": [
+            "diagnostic_errors", "source_analysis_unavailable_steps", "python_steps",
+            "human_review_items", "steps_without_static_hints",
+            "matlab_steps", "case"
+          ]
+        },
+        "meaning": {"type": "string", "minLength": 1},
+        "not_assessed": {
+          "type": "array",
+          "const": [
+            "model_correctness", "paper_quality", "migration_approval",
+            "cache_safety"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "cases_total", "ready_for_human_review", "not_applicable",
+        "blocked", "diagnostic_errors", "python_steps", "matlab_steps", "human_review_items",
+        "static_input_hints", "static_output_hints",
+        "source_analysis_unavailable_steps", "steps_without_static_hints"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cases_total": {"type": "integer", "minimum": 0},
+        "ready_for_human_review": {"type": "integer", "minimum": 0},
+        "not_applicable": {"type": "integer", "minimum": 0},
+        "blocked": {"type": "integer", "minimum": 0},
+        "diagnostic_errors": {"type": "integer", "minimum": 0},
+        "python_steps": {"type": "integer", "minimum": 0},
+        "matlab_steps": {"type": "integer", "minimum": 0},
+        "human_review_items": {"type": "integer", "minimum": 0},
+        "static_input_hints": {"type": "integer", "minimum": 0},
+        "static_output_hints": {"type": "integer", "minimum": 0},
+        "source_analysis_unavailable_steps": {"type": "integer", "minimum": 0},
+        "steps_without_static_hints": {"type": "integer", "minimum": 0}
+      }
+    },
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "binding": {
+      "type": ["object", "null"],
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "diagnostic_errors", "python_steps", "matlab_steps", "human_review_items",
+        "static_input_hints", "static_output_hints",
+        "source_analysis_unavailable_steps", "steps_without_static_hints"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "diagnostic_errors": {"type": "integer", "minimum": 0},
+        "python_steps": {"type": "integer", "minimum": 0},
+        "matlab_steps": {"type": "integer", "minimum": 0},
+        "human_review_items": {"type": "integer", "minimum": 0},
+        "static_input_hints": {"type": "integer", "minimum": 0},
+        "static_output_hints": {"type": "integer", "minimum": 0},
+        "source_analysis_unavailable_steps": {"type": "integer", "minimum": 0},
+        "steps_without_static_hints": {"type": "integer", "minimum": 0}
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "name", "type", "static_input_hints", "static_output_hints",
+        "static_hint_paths", "review_reason_codes",
+        "source_analysis_available"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["python", "matlab"]},
+        "static_input_hints": {"type": "integer", "minimum": 0},
+        "static_output_hints": {"type": "integer", "minimum": 0},
+        "static_hint_paths": {"$ref": "#/$defs/strings"},
+        "review_reason_codes": {"$ref": "#/$defs/strings"},
+        "source_analysis_available": {"type": "boolean"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "rank", "case", "case_dir", "status", "source_schema_version",
+        "source_manifest", "expected_candidate_sha256", "metrics", "diagnostic_codes", "steps",
+        "ranking_key", "source_unchanged", "errors", "warnings"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rank": {"type": ["integer", "null"], "minimum": 1},
+        "case": {"type": "string", "minLength": 1},
+        "case_dir": {"type": "string", "minLength": 1},
+        "status": {"enum": ["ready_for_human_review", "not_applicable", "blocked"]},
+        "source_schema_version": {"type": ["integer", "null"], "enum": [1, 2, null]},
+        "source_manifest": {"$ref": "#/$defs/binding"},
+        "expected_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "metrics": {"$ref": "#/$defs/metrics"},
+        "diagnostic_codes": {"$ref": "#/$defs/strings"},
+        "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+        "ranking_key": {
+          "type": ["array", "null"],
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "source_unchanged": {"type": "boolean"},
+        "errors": {"$ref": "#/$defs/strings"},
+        "warnings": {"$ref": "#/$defs/strings"}
+      }
+    }
+  }
+}

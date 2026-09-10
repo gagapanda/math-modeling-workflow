@@ -1,0 +1,3 @@
+# Competition Readiness Checklist
+
+This is a checklist, not a readiness certification. Establish the actual responsible operator and reviewers. AI may prepare evidence but cannot sign human decisions. Check the selected interpreter, input profile, baseline, validation structure, result freeze, evaluator-facing narrative, symbols and units, readable figures, final page review, current rules, anonymity and actual upload receipt. Record real elapsed time; no historical rehearsal or machine readiness is assumed for this distribution. Use single_operator_second_pass only when that matches the real team, never to invent reviewers.

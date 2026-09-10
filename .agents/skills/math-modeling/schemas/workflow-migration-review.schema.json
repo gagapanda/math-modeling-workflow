@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-review.schema.json",
+  "title": "Human-reviewed workflow v1-to-v2 migration decisions",
+  "type": "object",
+  "required": [
+    "schema_version", "source_manifest_sha256", "base_candidate_sha256",
+    "reviewer", "reviewed_at", "source_scripts", "steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "base_candidate_sha256": {"$ref": "#/$defs/sha256"},
+    "reviewer": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "minLength": 1},
+    "source_scripts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceScript"}
+    },
+    "steps": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/reviewedStep"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path": {"type": "string", "minLength": 1},
+    "paths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/path"}
+    },
+    "sourceScript": {
+      "type": "object",
+      "required": ["step", "path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "path": {"$ref": "#/$defs/path"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "confirmation": {"type": "boolean"},
+    "reviewedStep": {
+      "type": "object",
+      "required": [
+        "name", "inputs", "outputs", "timeout_seconds",
+        "deterministic", "cache", "confirm_declared_inputs",
+        "confirm_declared_outputs", "confirm_timeout",
+        "confirm_determinism", "decide_cache_enablement",
+        "decision_notes", "static_path_hints"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+        "inputs": {"$ref": "#/$defs/paths"},
+        "outputs": {"$ref": "#/$defs/paths"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+        "deterministic": {"type": "boolean"},
+        "cache": {"type": "boolean"},
+        "confirm_declared_inputs": {"$ref": "#/$defs/confirmation"},
+        "confirm_declared_outputs": {"$ref": "#/$defs/confirmation"},
+        "confirm_timeout": {"$ref": "#/$defs/confirmation"},
+        "confirm_determinism": {"$ref": "#/$defs/confirmation"},
+        "decide_cache_enablement": {"$ref": "#/$defs/confirmation"},
+        "decision_notes": {"type": "string", "minLength": 1},
+        "static_path_hints": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hint"}
+        }
+      }
+    },
+    "hint": {
+      "type": "object",
+      "required": ["path", "access", "line", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "access": {"enum": ["input", "output"]},
+        "line": {"type": "integer", "minimum": 1},
+        "evidence": {"type": "string", "minLength": 1},
+        "confidence": {"const": "static_literal_hint"}
+      }
+    }
+  }
+}

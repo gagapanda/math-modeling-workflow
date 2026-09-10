@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/ocr-benchmark.schema.json",
+  "title": "Selected-page OCR benchmark truth",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "prepared_manifest", "evidence_card", "purpose", "body_text", "formulas", "thresholds", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"enum": ["draft", "confirmed"]},
+    "prepared_manifest": {"$ref": "#/$defs/binding"},
+    "evidence_card": {"$ref": "#/$defs/binding"},
+    "purpose": {"type": "string", "minLength": 1},
+    "body_text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "image_sha256", "location", "reference_text", "transcribed_by", "human_reviewer", "reviewed_at"],
+      "properties": {
+        "page": {"type": "integer", "minimum": 1},
+        "image_sha256": {"$ref": "#/$defs/sha256"},
+        "location": {"type": "string", "minLength": 1},
+        "reference_text": {"type": "string", "minLength": 1},
+        "transcribed_by": {"type": "string", "minLength": 1},
+        "human_reviewer": {"type": "string"},
+        "reviewed_at": {"type": "string"}
+      }
+    },
+    "formulas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "page", "verified_transcription", "features"],
+        "properties": {
+          "id": {"$ref": "#/$defs/id"},
+          "page": {"type": "integer", "minimum": 1},
+          "verified_transcription": {"type": "string", "minLength": 1},
+          "features": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "description", "risk"],
+              "properties": {
+                "id": {"$ref": "#/$defs/id"},
+                "description": {"type": "string", "minLength": 1},
+                "risk": {"enum": ["normal", "high"]}
+              }
+            }
+          }
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_body_text_cer", "min_formula_detection_recall", "min_formula_feature_recall", "require_all_high_risk_features"],
+      "properties": {
+        "max_body_text_cer": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_formula_detection_recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_formula_feature_recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "require_all_high_risk_features": {"type": "boolean"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "if": {"properties": {"status": {"const": "confirmed"}}},
+  "then": {
+    "properties": {
+      "body_text": {
+        "properties": {
+          "human_reviewer": {"type": "string", "minLength": 1},
+          "reviewed_at": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

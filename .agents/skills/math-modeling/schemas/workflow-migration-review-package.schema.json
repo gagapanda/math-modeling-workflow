@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-review-package.schema.json",
+  "title": "Passive hash-bound workflow migration human-review package",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "case_dir", "status", "applicable",
+    "files_written", "case_steps_executed", "external_tools_started",
+    "review_record_created", "candidate_exported", "cache_enabled",
+    "source_unchanged", "bindings", "steps", "relationships", "gaps",
+    "summary", "errors", "warnings", "diagnostics_schema_version",
+    "diagnostics", "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "prepare_workflow_migration_review_package"},
+    "mode": {"const": "passive_read_only"},
+    "case_dir": {"type": "string", "minLength": 1},
+    "status": {"enum": ["ready_for_human_review", "not_applicable", "failed"]},
+    "applicable": {"type": "boolean"},
+    "files_written": {"const": false},
+    "case_steps_executed": {"const": false},
+    "external_tools_started": {"const": false},
+    "review_record_created": {"const": false},
+    "candidate_exported": {"const": false},
+    "cache_enabled": {"const": false},
+    "source_unchanged": {"type": "boolean"},
+    "bindings": {
+      "type": "object",
+      "required": ["source_manifest", "base_candidate_sha256", "python_scripts", "support_modules"],
+      "additionalProperties": false,
+      "properties": {
+        "source_manifest": {"$ref": "#/$defs/fileBinding"},
+        "base_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "python_scripts": {"type": "array", "items": {"$ref": "#/$defs/scriptBinding"}},
+        "support_modules": {"type": "array", "items": {"$ref": "#/$defs/fileBinding"}}
+      }
+    },
+    "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+    "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationship"}},
+    "gaps": {"type": "array", "items": {"$ref": "#/$defs/gap"}},
+    "summary": {
+      "type": "object",
+      "required": [
+        "python_steps", "path_candidates", "candidate_inputs",
+        "candidate_outputs", "relationships", "evidence_gaps",
+        "pending_checklist_items", "cache_enable_recommended",
+        "provenance_chains", "direct_provenance_chains",
+        "local_helper_provenance_chains", "imported_helper_provenance_chains"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "python_steps": {"type": "integer", "minimum": 0},
+        "path_candidates": {"type": "integer", "minimum": 0},
+        "candidate_inputs": {"type": "integer", "minimum": 0},
+        "candidate_outputs": {"type": "integer", "minimum": 0},
+        "relationships": {"type": "integer", "minimum": 0},
+        "evidence_gaps": {"type": "integer", "minimum": 0},
+        "pending_checklist_items": {"type": "integer", "minimum": 0},
+        "cache_enable_recommended": {"type": "integer", "const": 0},
+        "provenance_chains": {"type": "integer", "minimum": 0},
+        "direct_provenance_chains": {"type": "integer", "minimum": 0},
+        "local_helper_provenance_chains": {"type": "integer", "minimum": 0},
+        "imported_helper_provenance_chains": {"type": "integer", "minimum": 0},
+        "trace_limitation_occurrences": {"type": "integer", "minimum": 0},
+        "unique_trace_limitations": {"type": "integer", "minimum": 0},
+        "trace_limitations": {"type": "integer", "minimum": 0},
+        "trace_limitation_groups": {"type": "integer", "minimum": 0}
+      }
+    },
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "fileBinding": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "scriptBinding": {
+      "type": "object",
+      "required": ["step", "path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "pathEvidence": {
+      "type": "object",
+      "required": ["path", "access", "line", "evidence", "confidence", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "access": {"enum": ["input", "output", "unclassified"]},
+        "line": {"type": "integer", "minimum": 1},
+        "evidence": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["static_literal_hint", "review_candidate"]},
+        "provenance": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/provenance"}}
+      }
+    },
+    "callFrame": {
+      "type": "object",
+      "required": ["module", "function", "line", "callee"],
+      "additionalProperties": false,
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "function": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1},
+        "callee": {"type": "string", "minLength": 1}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["kind", "call_chain"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"enum": ["direct", "local_helper", "imported_helper"]},
+        "call_chain": {"type": "array", "minItems": 1, "maxItems": 5, "items": {"$ref": "#/$defs/callFrame"}}
+      }
+    },
+    "checklist": {
+      "type": "object",
+      "required": ["code", "status", "prompt"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"enum": ["declared_inputs", "declared_outputs", "timeout", "determinism", "cache_enablement"]},
+        "status": {"const": "pending_human_review"},
+        "prompt": {"type": "string", "minLength": 1}
+      }
+    },
+    "traceLimitation": {
+      "type": "object",
+      "required": ["code", "module", "function", "line", "callee", "status", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "helper_cycle_detected",
+            "helper_depth_limit_reached",
+            "dynamic_import_unresolved",
+            "star_import_unresolved",
+            "helper_name_rebound",
+            "path_parameter_transformed",
+            "trace_budget_exhausted"
+          ]
+        },
+        "module": {"type": "string", "minLength": 1},
+        "function": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1},
+        "callee": {"type": "string", "minLength": 1},
+        "status": {"const": "review_required"},
+        "message": {"type": "string", "minLength": 1},
+        "call_chain": {"type": "array", "minItems": 1, "maxItems": 5, "items": {"$ref": "#/$defs/callFrame"}}
+      }
+    },
+    "traceLimitationGroup": {
+      "type": "object",
+      "required": [
+        "code", "module", "function", "line", "callee",
+        "status", "message", "occurrences", "unique_call_chains"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "helper_cycle_detected",
+            "helper_depth_limit_reached",
+            "dynamic_import_unresolved",
+            "star_import_unresolved",
+            "helper_name_rebound",
+            "path_parameter_transformed",
+            "trace_budget_exhausted"
+          ]
+        },
+        "module": {"type": "string", "minLength": 1},
+        "function": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1},
+        "callee": {"type": "string", "minLength": 1},
+        "status": {"const": "review_required"},
+        "message": {"type": "string", "minLength": 1},
+        "occurrences": {"type": "integer", "minimum": 1},
+        "unique_call_chains": {"type": "integer", "minimum": 1}
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "order", "name", "script", "script_sha256", "path_evidence",
+        "candidate_inputs", "candidate_outputs", "unclassified_paths",
+        "checklist"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "order": {"type": "integer", "minimum": 1},
+        "name": {"type": "string", "minLength": 1},
+        "script": {"type": "string", "minLength": 1},
+        "script_sha256": {"$ref": "#/$defs/sha256"},
+        "path_evidence": {"type": "array", "items": {"$ref": "#/$defs/pathEvidence"}},
+        "candidate_inputs": {"$ref": "#/$defs/strings"},
+        "candidate_outputs": {"$ref": "#/$defs/strings"},
+        "unclassified_paths": {"$ref": "#/$defs/strings"},
+        "trace_limitations": {"type": "array", "items": {"$ref": "#/$defs/traceLimitation"}},
+        "trace_limitation_groups": {"type": "array", "items": {"$ref": "#/$defs/traceLimitationGroup"}},
+        "checklist": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/checklist"}}
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["producer_step", "consumer_step", "path", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "producer_step": {"type": "string", "minLength": 1},
+        "consumer_step": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "evidence": {"const": "exact candidate output/input path match"},
+        "confidence": {"const": "review_candidate"}
+      }
+    },
+    "gap": {
+      "type": "object",
+      "required": ["step", "code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "code": {"enum": ["no_input_candidates", "no_output_candidates", "unclassified_path_candidates", "no_relationship_candidates"]},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/submission-package-report.schema.json",
+  "title": "Submission package report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "packaged",
+    "case_dir",
+    "bindings",
+    "outputs",
+    "anonymity",
+    "validation",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "packaged": {"type": "boolean"},
+    "case_dir": {"type": "string", "minLength": 1},
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan", "finalization_report", "source_paper"],
+      "properties": {
+        "plan": {"$ref": "#/$defs/fileBinding"},
+        "finalization_report": {"$ref": "#/$defs/fileBinding"},
+        "source_paper": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paper", "support"],
+      "properties": {
+        "paper": {"$ref": "#/$defs/outputBinding"},
+        "support": {
+          "allOf": [
+            {"$ref": "#/$defs/outputBinding"},
+            {
+              "type": "object",
+              "required": ["entries", "manifest_sha256"],
+              "properties": {
+                "entries": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {"$ref": "#/$defs/archiveEntry"}
+                },
+                "manifest_sha256": {"$ref": "#/$defs/sha256"}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "anonymity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forbidden_terms", "files_scanned", "matches"],
+      "properties": {
+        "forbidden_terms": {"type": "array", "items": {"type": "string"}},
+        "files_scanned": {"type": "integer", "minimum": 0},
+        "matches": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pdf_readable", "pdf_pages", "zip_tested", "zip_round_trip", "size_limits_passed"],
+      "properties": {
+        "pdf_readable": {"type": "boolean"},
+        "pdf_pages": {"type": "integer", "minimum": 1},
+        "zip_tested": {"type": "boolean"},
+        "zip_round_trip": {"type": "boolean"},
+        "size_limits_passed": {"type": "boolean"}
+      }
+    },
+    "errors": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "outputBinding": {
+      "type": "object",
+      "required": ["path", "size_bytes", "max_bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "max_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "archiveEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "archive_path", "size_bytes", "sha256"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "archive_path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

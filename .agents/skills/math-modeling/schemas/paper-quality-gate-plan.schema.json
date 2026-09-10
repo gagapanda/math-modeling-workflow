@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/paper-quality-gate-plan.schema.json",
+  "title": "Paper quality gate plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "paper_source",
+    "docx",
+    "pdf",
+    "render_dir",
+    "result_register",
+    "summary",
+    "subproblems",
+    "page_regions",
+    "source_appendix",
+    "formula_bindings",
+    "figure_claims",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "paper_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "docx": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pdf": {
+      "type": "string",
+      "minLength": 1
+    },
+    "render_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_register": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "subproblems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/subproblem"
+      }
+    },
+    "page_regions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pageRegion"
+      }
+    },
+    "source_appendix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceAppendix"
+      }
+    },
+    "formula_bindings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/formulaBinding"
+      }
+    },
+    "figure_claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/figureClaim"
+      }
+    },
+    "metadata": {
+      "$ref": "#/$defs/metadata"
+    }
+  },
+  "$defs": {
+    "markers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "idArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_subproblem_ids",
+        "max_pages",
+        "markers"
+      ],
+      "properties": {
+        "required_subproblem_ids": {
+          "$ref": "#/$defs/idArray"
+        },
+        "max_pages": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "markers": {
+          "$ref": "#/$defs/markers"
+        }
+      }
+    },
+    "subproblem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "heading",
+        "required_markers",
+        "headline_result_ids"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "heading": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "headline_result_ids": {
+          "$ref": "#/$defs/idArray"
+        },
+        "method_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "result_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "validation_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "boundary_markers": {
+          "$ref": "#/$defs/markers"
+        }
+      }
+    },
+    "pageRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "start",
+        "end"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "sourceAppendix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "paper_marker",
+        "required_tokens"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paper_marker": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_tokens": {
+          "$ref": "#/$defs/markers"
+        }
+      }
+    },
+    "formulaBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "paper_markers",
+        "source_files",
+        "required_tokens",
+        "result_ids"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paper_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "source_files": {
+          "$ref": "#/$defs/markers"
+        },
+        "required_tokens": {
+          "$ref": "#/$defs/markers"
+        },
+        "result_ids": {
+          "$ref": "#/$defs/idArray"
+        }
+      }
+    },
+    "figureClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "figure",
+        "subproblem_id",
+        "source_result_ids",
+        "body_markers",
+        "limitation_markers"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "figure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subproblem_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_result_ids": {
+          "$ref": "#/$defs/idArray"
+        },
+        "body_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "limitation_markers": {
+          "$ref": "#/$defs/markers"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "forbidden_terms"
+      ],
+      "properties": {
+        "forbidden_terms": {
+          "$ref": "#/$defs/markers"
+        },
+        "forbidden_path_patterns": {
+          "$ref": "#/$defs/markers"
+        },
+        "forbidden_command_markers": {
+          "$ref": "#/$defs/markers"
+        },
+        "allowed_anonymous_values": {
+          "$ref": "#/$defs/markers"
+        }
+      }
+    }
+  }
+}

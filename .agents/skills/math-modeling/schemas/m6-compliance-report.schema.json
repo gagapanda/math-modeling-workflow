@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/m6-compliance-report.schema.json",
+  "title": "Complete M6 compliance audit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "required", "scope", "technical_passed", "passed", "full_m6_proven", "paths", "checks", "legacy_submission_compliance", "anonymity", "sources", "ai_content", "human_gate", "evidence_sha256", "errors"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1}, "generated_at": {"type": "string", "minLength": 1},
+    "required": {"type": "boolean", "const": true}, "scope": {"type": "string", "const": "full_m6"},
+    "technical_passed": {"type": "boolean"}, "passed": {"type": "boolean"}, "full_m6_proven": {"type": "boolean"},
+    "paths": {"type": "object", "additionalProperties": {"type": "string"}},
+    "checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "legacy_submission_compliance": {"type": "object"}, "anonymity": {"type": "object"}, "sources": {"type": "object"}, "ai_content": {"type": "object"}, "human_gate": {"type": "object"},
+    "evidence_sha256": {"type": "object", "additionalProperties": {"$ref": "#/$defs/binding"}},
+    "errors": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "binding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}

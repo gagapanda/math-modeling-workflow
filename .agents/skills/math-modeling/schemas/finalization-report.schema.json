@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/finalization-report.schema.json",
+  "title": "Finalization report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "ready_for_submission",
+    "case_dir",
+    "artifacts",
+    "artifact_hashes",
+    "commands",
+    "preflight",
+    "reconciliation",
+    "model_definition_audit",
+    "paper_audit",
+    "visual_review",
+    "submission_compliance",
+    "errors",
+    "diagnostics_schema_version",
+    "diagnostics",
+    "diagnostic_summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ready_for_submission": {
+      "type": "boolean"
+    },
+    "case_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "object"
+    },
+    "artifact_hashes": {
+      "type": "object"
+    },
+    "commands": {
+      "type": "object"
+    },
+    "preflight": {
+      "type": "object"
+    },
+    "reconciliation": {
+      "type": "object"
+    },
+    "model_definition_audit": {
+      "type": "object"
+    },
+    "paper_audit": {
+      "type": "object"
+    },
+    "visual_review": {
+      "type": "object"
+    },
+    "quality_gates": {
+      "type": "object"
+    },
+    "submission_compliance": {
+      "type": "object"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "diagnostics_schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "diagnostic_summary": {
+      "type": "object",
+      "required": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "properties": {
+        "error": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warning": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "info": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "paper_authority": {
+      "type": "object"
+    },
+    "gate_scopes": {
+      "type": "object"
+    },
+    "paper_closeout": {
+      "type": "object"
+    }
+  }
+}

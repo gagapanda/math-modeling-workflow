@@ -1,0 +1,13 @@
+{
+  "paper": "A4",
+  "margin_cm": 2.5,
+  "body_pt": 11,
+  "line_spacing": 1.25,
+  "latin_font": "Times New Roman",
+  "cjk_font": "宋体",
+  "heading_cjk_font": "黑体",
+  "math_font": "Cambria Math",
+  "first_heading_is_title": true,
+  "render_dpi": 120,
+  "timeout_seconds": 120
+}

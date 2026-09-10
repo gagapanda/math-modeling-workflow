@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/ocr-benchmark-review.schema.json",
+  "title": "Observed OCR benchmark review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "benchmark_sha256", "backend", "model", "layout_analysis", "evaluated_by", "evaluated_at", "ocr_files", "formula_results", "notes"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "completed"},
+    "benchmark_sha256": {"$ref": "#/$defs/sha256"},
+    "backend": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "layout_analysis": {"type": "string", "minLength": 1},
+    "evaluated_by": {"type": "string", "minLength": 1},
+    "evaluated_at": {"type": "string", "minLength": 1},
+    "ocr_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page", "path", "sha256"],
+        "properties": {
+          "page": {"type": "integer", "minimum": 1},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "formula_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "detected", "usable_without_correction", "features", "notes"],
+        "properties": {
+          "id": {"$ref": "#/$defs/id"},
+          "detected": {"type": "boolean"},
+          "usable_without_correction": {"type": "boolean"},
+          "features": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "status", "notes"],
+              "properties": {
+                "id": {"$ref": "#/$defs/id"},
+                "status": {"enum": ["correct", "incorrect", "missing", "uncertain"]},
+                "notes": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "notes": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

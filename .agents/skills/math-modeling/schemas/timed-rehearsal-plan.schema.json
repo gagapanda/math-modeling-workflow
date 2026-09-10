@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/timed-rehearsal-plan.schema.json",
+  "title": "Timed rehearsal plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rehearsal_id", "mode", "competition", "problem", "started_at", "deadline_at", "team", "phases", "fault_injections"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "rehearsal_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,79}$"},
+    "mode": {"type": "string", "enum": ["dry-run", "timed-practice", "full-simulation"]},
+    "competition": {"type": "string", "minLength": 1},
+    "problem": {"type": "string", "minLength": 1},
+    "started_at": {"type": "string", "minLength": 1},
+    "deadline_at": {"type": "string", "minLength": 1},
+    "team": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["member_id", "role"],
+        "properties": {
+          "member_id": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "planned_minutes"],
+        "properties": {
+          "id": {"type": "string", "enum": ["problem-selection", "baseline", "primary-model", "synchronized-writing", "independent-review", "packaging"]},
+          "planned_minutes": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "fault_injections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "planned_at", "expected_response"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,79}$"},
+          "planned_at": {"type": "string", "minLength": 1},
+          "expected_response": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

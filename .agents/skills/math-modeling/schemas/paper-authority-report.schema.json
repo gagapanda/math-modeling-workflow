@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/paper-authority-report.schema.json",
+  "title": "M5 paper-authority audit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "required", "mode", "passed", "paper_authoritative", "paths", "sha256", "current_state_fields", "f1_verification", "marker_checks", "errors"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "required": {"type": "boolean", "const": true},
+    "mode": {"type": "string", "enum": ["draft", "authoritative"]},
+    "passed": {"type": "boolean"},
+    "paper_authoritative": {"type": "boolean"},
+    "paths": {"type": "object", "additionalProperties": {"type": "string"}},
+    "sha256": {"type": "object", "additionalProperties": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}},
+    "current_state_fields": {"type": "object", "additionalProperties": {"type": "string"}},
+    "f1_verification": {"type": "object"},
+    "marker_checks": {"type": "object", "additionalProperties": {"type": ["boolean", "null"]}},
+    "errors": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  }
+}

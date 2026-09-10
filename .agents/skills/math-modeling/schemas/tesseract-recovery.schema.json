@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/tesseract-recovery.schema.json",
+  "title": "Pinned Tesseract offline recovery manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "created_at", "engine", "models", "benchmark_report", "restore_steps", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_id", "version", "installer", "installed_executable", "source_url", "winget_hash_verified", "authenticode_status", "signer"],
+      "properties": {
+        "package_id": {"const": "UB-Mannheim.TesseractOCR"},
+        "version": {"type": "string", "minLength": 1},
+        "installer": {"$ref": "#/$defs/file"},
+        "installed_executable": {"$ref": "#/$defs/file"},
+        "source_url": {"type": "string", "minLength": 1},
+        "winget_hash_verified": {"type": "boolean"},
+        "authenticode_status": {"type": "string", "minLength": 1},
+        "signer": {"type": "string", "minLength": 1}
+      }
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "files"],
+      "properties": {
+        "repository": {"const": "tesseract-ocr/tessdata_best"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "files": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/file"}}
+      }
+    },
+    "benchmark_report": {"$ref": "#/$defs/file"},
+    "restore_steps": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

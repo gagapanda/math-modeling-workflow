@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/pdf-evidence-card.schema.json",
+  "title": "Verified selected PDF evidence card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ready", "manifest_sha256", "review_sha256", "source", "purpose", "reviewer", "reviewed_at", "pages", "verified_formulas", "rejected_formulas", "insights", "limitations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "ready": {"const": true},
+    "manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "review_sha256": {"$ref": "#/$defs/sha256"},
+    "source": {"type": "object"},
+    "purpose": {"type": "string", "minLength": 1},
+    "reviewer": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "minLength": 1},
+    "pages": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "verified_formulas": {"type": "array", "items": {"type": "object"}},
+    "rejected_formulas": {"type": "array", "items": {"type": "object"}},
+    "insights": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

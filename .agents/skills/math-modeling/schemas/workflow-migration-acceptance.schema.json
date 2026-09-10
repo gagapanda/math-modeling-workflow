@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-acceptance.schema.json",
+  "title": "Read-only workflow migration candidate acceptance audit",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "case_dir",
+    "source_manifest_path", "status", "accepted", "applicable",
+    "source_unchanged", "case_files_written", "case_steps_executed",
+    "external_tools_started", "rehearsal_passed", "review_valid",
+    "candidate_valid", "bindings", "invariants", "authorized_changes",
+    "unauthorized_changes", "plan_comparison", "summary", "errors",
+    "warnings", "diagnostics_schema_version", "diagnostics",
+    "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "audit_workflow_migration_candidate"},
+    "mode": {"const": "passive_read_only"},
+    "case_dir": {"type": "string", "minLength": 1},
+    "source_manifest_path": {"type": "string", "minLength": 1},
+    "status": {"enum": ["evidence_required", "accepted", "not_applicable", "failed"]},
+    "accepted": {"type": "boolean"},
+    "applicable": {"type": "boolean"},
+    "source_unchanged": {"type": "boolean"},
+    "case_files_written": {"const": false},
+    "case_steps_executed": {"const": false},
+    "external_tools_started": {"const": false},
+    "rehearsal_passed": {"type": "boolean"},
+    "review_valid": {"type": "boolean"},
+    "candidate_valid": {"type": "boolean"},
+    "bindings": {"$ref": "#/$defs/bindings"},
+    "invariants": {"type": "array", "items": {"$ref": "#/$defs/invariant"}},
+    "authorized_changes": {"type": "array", "items": {"$ref": "#/$defs/authorizedChange"}},
+    "unauthorized_changes": {"type": "array", "items": {"$ref": "#/$defs/unauthorizedChange"}},
+    "plan_comparison": {"$ref": "#/$defs/planComparison"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "binding": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "scriptBinding": {
+      "type": "object",
+      "required": ["step", "path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "required": ["source_manifest", "review_record", "candidate_manifest", "python_scripts", "expected_candidate_sha256", "actual_candidate_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "source_manifest": {"$ref": "#/$defs/binding"},
+        "review_record": {"type": ["object", "null"]},
+        "candidate_manifest": {"type": ["object", "null"]},
+        "python_scripts": {"type": "array", "items": {"$ref": "#/$defs/scriptBinding"}},
+        "expected_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "actual_candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "required": ["code", "status", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "status": {"enum": ["passed", "failed", "not_checked"]},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
+    "authorizedChange": {
+      "type": "object",
+      "required": ["json_pointer", "before_json", "after_json", "authorization"],
+      "additionalProperties": false,
+      "properties": {
+        "json_pointer": {"type": "string", "minLength": 1},
+        "before_json": {"type": "string"},
+        "after_json": {"type": "string"},
+        "authorization": {"enum": ["target_schema_version", "preserve_practice_profile", "reviewed_python_metadata"]}
+      }
+    },
+    "unauthorizedChange": {
+      "type": "object",
+      "required": ["json_pointer", "expected_json", "actual_json", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "json_pointer": {"type": "string", "minLength": 1},
+        "expected_json": {"type": "string"},
+        "actual_json": {"type": "string"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
+    "planStep": {
+      "type": "object",
+      "required": ["name", "type", "runner", "action", "reason_code"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["python", "matlab"]},
+        "runner": {"type": ["string", "null"]},
+        "action": {"enum": ["execute", "cache-hit", "verify-evidence", "blocked"]},
+        "reason_code": {"type": "string", "minLength": 1}
+      }
+    },
+    "actionChange": {
+      "type": "object",
+      "required": ["step", "source_action", "source_reason_code", "candidate_action", "candidate_reason_code"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "source_action": {"type": "string", "minLength": 1},
+        "source_reason_code": {"type": "string", "minLength": 1},
+        "candidate_action": {"type": "string", "minLength": 1},
+        "candidate_reason_code": {"type": "string", "minLength": 1}
+      }
+    },
+    "planComparison": {
+      "type": "object",
+      "required": ["source_plan_valid", "candidate_plan_valid", "structure_equivalent", "source_postprocessing_planned", "candidate_postprocessing_planned", "source_steps", "candidate_steps", "action_changes", "candidate_blocked_steps"],
+      "additionalProperties": false,
+      "properties": {
+        "source_plan_valid": {"type": "boolean"},
+        "candidate_plan_valid": {"type": "boolean"},
+        "structure_equivalent": {"type": "boolean"},
+        "source_postprocessing_planned": {"type": ["boolean", "null"]},
+        "candidate_postprocessing_planned": {"type": ["boolean", "null"]},
+        "source_steps": {"type": "array", "items": {"$ref": "#/$defs/planStep"}},
+        "candidate_steps": {"type": "array", "items": {"$ref": "#/$defs/planStep"}},
+        "action_changes": {"type": "array", "items": {"$ref": "#/$defs/actionChange"}},
+        "candidate_blocked_steps": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["invariants_passed", "invariants_failed", "authorized_changes", "unauthorized_changes", "plan_action_changes", "candidate_blocked_steps"],
+      "additionalProperties": false,
+      "properties": {
+        "invariants_passed": {"type": "integer", "minimum": 0},
+        "invariants_failed": {"type": "integer", "minimum": 0},
+        "authorized_changes": {"type": "integer", "minimum": 0},
+        "unauthorized_changes": {"type": "integer", "minimum": 0},
+        "plan_action_changes": {"type": "integer", "minimum": 0},
+        "candidate_blocked_steps": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

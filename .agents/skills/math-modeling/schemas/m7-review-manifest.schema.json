@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/m7-review-manifest.schema.json",
+  "title": "Human M7 delivery review manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_id", "status", "m7_approved", "official_submission_status", "generated_at", "source_plan", "source_candidate", "evidence_sha256", "technical_scope", "human_decision"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "review_id": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["M7_PENDING_HUMAN", "M7_ACCEPTED", "M7_ACCEPTED_WITH_LIMITATIONS", "M7_REJECTED"]},
+    "m7_approved": {"type": "boolean"},
+    "official_submission_status": {"type": "string", "const": "NOT_FORMAL_F2"},
+    "generated_at": {"type": "string", "minLength": 1},
+    "source_plan": {"$ref": "#/$defs/binding"},
+    "source_candidate": {"$ref": "#/$defs/optionalBinding"},
+    "evidence_sha256": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/binding"}},
+    "technical_scope": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "human_decision": {"$ref": "#/$defs/humanDecision"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "optionalBinding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^$|^[0-9a-f]{64}$"}}
+    },
+    "humanDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decision", "reviewer", "review_mode", "review_start", "review_end", "signed_at", "objections", "resolution", "confirmation"],
+      "properties": {
+        "decision": {"type": "string", "enum": ["not_reviewed", "accepted", "accepted_with_limitations", "rejected"]},
+        "reviewer": {"type": "string"},
+        "review_mode": {"type": "string", "enum": ["not_reviewed", "single_operator_review"]},
+        "review_start": {"type": "string"},
+        "review_end": {"type": "string"},
+        "signed_at": {"type": "string"},
+        "objections": {"type": "string"},
+        "resolution": {"type": "string"},
+        "confirmation": {"type": "string", "enum": ["NOT_CONFIRMED", "I_REVIEWED_THE_M7_DELIVERY_CANDIDATE"]}
+      }
+    }
+  }
+}

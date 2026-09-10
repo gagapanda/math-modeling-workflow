@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/submission-package-plan.schema.json",
+  "title": "Submission package plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "finalization_report", "paper", "support", "anonymity"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "finalization_report": {"type": "string", "minLength": 1},
+    "paper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "output_name", "max_bytes"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "output_name": {"type": "string", "minLength": 1},
+        "max_bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output_name", "max_bytes", "files"],
+      "properties": {
+        "output_name": {"type": "string", "minLength": 1},
+        "max_bytes": {"type": "integer", "minimum": 1},
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "archive_path"],
+            "properties": {
+              "source": {"type": "string", "minLength": 1},
+              "archive_path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "anonymity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forbidden_terms"],
+      "properties": {
+        "forbidden_terms": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

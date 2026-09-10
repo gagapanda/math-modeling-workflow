@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/f2-submission-manifest.schema.json",
+  "title": "Official F2 submission receipt manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "submission_id", "status", "official_submission_complete", "generated_at", "source_plan", "source_m7_manifest", "evidence_sha256", "upload"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "submission_id": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "const": "F2_COMPLETE"},
+    "official_submission_complete": {"type": "boolean", "const": true},
+    "generated_at": {"type": "string", "minLength": 1},
+    "source_plan": {"$ref": "#/$defs/binding"},
+    "source_m7_manifest": {"$ref": "#/$defs/binding"},
+    "evidence_sha256": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/binding"}},
+    "upload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["competition", "platform", "portal_submission_identifier", "operator", "review_mode", "upload_start", "upload_end", "receipt_recorded_at", "confirmation"],
+      "properties": {
+        "competition": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "portal_submission_identifier": {"type": "string", "minLength": 1},
+        "operator": {"type": "string", "minLength": 1},
+        "review_mode": {"type": "string", "const": "single_operator_review"},
+        "upload_start": {"type": "string", "minLength": 1},
+        "upload_end": {"type": "string", "minLength": 1},
+        "receipt_recorded_at": {"type": "string", "minLength": 1},
+        "confirmation": {"type": "string", "const": "I_COMPLETED_THE_OFFICIAL_UPLOAD_AND_CAPTURED_RECEIPT"}
+      }
+    }
+  },
+  "$defs": {
+    "binding": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

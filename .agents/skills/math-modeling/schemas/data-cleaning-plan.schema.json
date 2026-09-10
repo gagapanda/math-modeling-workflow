@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/data-cleaning-plan.schema.json",
+  "title": "Data cleaning plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "input_sha256", "rules"],
+  "properties": {
+    "version": {"const": 1},
+    "input_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "row_id_columns": {"$ref": "#/$defs/columns"},
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/rule"}
+    }
+  },
+
+  "$defs": {
+    "columns": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "nonEmptyColumns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "scalar": {
+      "type": ["string", "number", "integer", "boolean", "null"]
+    },
+    "base": {
+      "type": "object",
+      "required": ["id", "operation", "reason", "expected_changes"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"},
+        "operation": {"type": "string"},
+        "reason": {"type": "string", "minLength": 1},
+        "expected_changes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "rule": {
+      "oneOf": [
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns"],
+              "properties": {
+                "id": true, "operation": {"const": "trim_whitespace"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "replacements"],
+              "properties": {
+                "id": true, "operation": {"const": "replace_values"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "replacements": {
+                  "type": "array", "minItems": 1,
+                  "items": {
+                    "type": "object", "additionalProperties": false,
+                    "required": ["from", "to"],
+                    "properties": {
+                      "from": {"$ref": "#/$defs/scalar"},
+                      "to": {"$ref": "#/$defs/scalar"}
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "errors"],
+              "properties": {
+                "id": true, "operation": {"const": "convert_numeric"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "errors": {"enum": ["fail", "coerce"]}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "value"],
+              "properties": {
+                "id": true, "operation": {"const": "fill_missing"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "value": {"$ref": "#/$defs/scalar"}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "minimum", "maximum"],
+              "properties": {
+                "id": true, "operation": {"const": "clip_numeric"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "minimum": {"type": ["number", "null"]},
+                "maximum": {"type": ["number", "null"]}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "factor", "offset"],
+              "properties": {
+                "id": true, "operation": {"const": "unit_transform"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "factor": {"type": "number"}, "offset": {"type": "number"}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "row_keys"],
+              "properties": {
+                "id": true, "operation": {"const": "swap_columns_by_row_key"},
+                "reason": true, "expected_changes": true,
+                "columns": {
+                  "type": "array", "minItems": 2, "maxItems": 2,
+                  "items": {"type": "string", "minLength": 1}, "uniqueItems": true
+                },
+                "row_keys": {
+                  "type": "array", "minItems": 1,
+                  "items": {
+                    "type": "object", "minProperties": 1,
+                    "additionalProperties": {"$ref": "#/$defs/scalar"}
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "columns", "how"],
+              "properties": {
+                "id": true, "operation": {"const": "drop_missing_rows"},
+                "reason": true, "expected_changes": true,
+                "columns": {"$ref": "#/$defs/nonEmptyColumns"},
+                "how": {"enum": ["any", "all"]}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "subset", "keep"],
+              "properties": {
+                "id": true, "operation": {"const": "drop_duplicate_rows"},
+                "reason": true, "expected_changes": true,
+                "subset": {"$ref": "#/$defs/nonEmptyColumns"},
+                "keep": {"enum": ["first", "last"]}
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {"$ref": "#/$defs/base"},
+            {
+              "type": "object", "additionalProperties": false,
+              "required": ["id", "operation", "reason", "expected_changes", "mapping"],
+              "properties": {
+                "id": true, "operation": {"const": "rename_columns"},
+                "reason": true, "expected_changes": true,
+                "mapping": {
+                  "type": "object", "minProperties": 1,
+                  "additionalProperties": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

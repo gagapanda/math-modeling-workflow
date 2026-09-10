@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/m6-source-register.schema.json",
+  "title": "M6 citations, external data, software, and license register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "reviewed_at", "not_applicable_reason", "entries"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "status": {"type": "string", "enum": ["pending", "complete", "not_applicable"]},
+    "reviewed_at": {"type": "string"},
+    "not_applicable_reason": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "category", "source", "citation_or_paper_locator", "license_status", "local_evidence", "purpose", "used_in", "limitations", "support_required", "support_path"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "category": {"type": "string", "enum": ["data", "software", "algorithm", "prior_work", "other"]},
+          "source": {"type": "string", "minLength": 1},
+          "citation_or_paper_locator": {"type": "string", "minLength": 1},
+          "license_status": {"type": "string", "enum": ["permitted", "not_required", "unknown", "prohibited"]},
+          "local_evidence": {"type": "string"},
+          "purpose": {"type": "string", "minLength": 1},
+          "used_in": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "limitations": {"type": "string", "minLength": 1},
+          "support_required": {"type": "boolean"},
+          "support_path": {"type": "string"}
+        }
+      }
+    }
+  }
+}

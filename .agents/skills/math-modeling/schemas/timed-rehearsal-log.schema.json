@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/timed-rehearsal-log.schema.json",
+  "title": "Timed rehearsal event log",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rehearsal_id", "plan_sha256", "events"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "rehearsal_id": {"type": "string", "minLength": 1},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sequence", "occurred_at", "phase", "type", "summary", "category", "fault_id", "related_event", "evidence", "previous_event_sha256", "event_sha256"],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 1},
+          "occurred_at": {"type": "string", "minLength": 1},
+          "phase": {"type": "string", "enum": ["problem-selection", "baseline", "primary-model", "synchronized-writing", "independent-review", "packaging"]},
+          "type": {"type": "string", "enum": ["milestone", "failure", "rework", "decision", "fault-injection", "recovery"]},
+          "summary": {"type": "string", "minLength": 1},
+          "category": {"type": ["string", "null"]},
+          "fault_id": {"type": ["string", "null"]},
+          "related_event": {"type": ["integer", "null"]},
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+              }
+            }
+          },
+          "previous_event_sha256": {"type": ["string", "null"]},
+          "event_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

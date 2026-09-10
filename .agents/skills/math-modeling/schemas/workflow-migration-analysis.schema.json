@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-analysis.schema.json",
+  "title": "Passive workflow v1-to-v2 migration analysis",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "files_written",
+    "case_steps_executed", "case_dir", "manifest_path",
+    "source_schema_version", "target_schema_version", "applicable",
+    "candidate_manifest", "candidate_valid", "steps", "summary",
+    "review_required", "errors", "warnings",
+    "diagnostics_schema_version", "diagnostics", "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "analyze_workflow_migration"},
+    "mode": {"const": "passive_read_only"},
+    "files_written": {"const": false},
+    "case_steps_executed": {"const": false},
+    "case_dir": {"type": "string", "minLength": 1},
+    "manifest_path": {"type": "string", "minLength": 1},
+    "source_schema_version": {"type": "integer", "enum": [1, 2]},
+    "target_schema_version": {"type": "integer", "const": 2},
+    "applicable": {"type": "boolean"},
+    "candidate_manifest": {"type": ["object", "null"]},
+    "candidate_valid": {"type": "boolean"},
+    "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+    "summary": {
+      "type": "object",
+      "required": ["python_steps", "matlab_steps", "static_input_hints", "static_output_hints", "cache_enable_recommended", "human_review_items"],
+      "additionalProperties": false,
+      "properties": {
+        "python_steps": {"type": "integer", "minimum": 0},
+        "matlab_steps": {"type": "integer", "minimum": 0},
+        "static_input_hints": {"type": "integer", "minimum": 0},
+        "static_output_hints": {"type": "integer", "minimum": 0},
+        "cache_enable_recommended": {"type": "integer", "const": 0},
+        "human_review_items": {"type": "integer", "minimum": 0}
+      }
+    },
+    "review_required": {"type": "array", "items": {"$ref": "#/$defs/review"}},
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "hint": {
+      "type": "object",
+      "required": ["path", "access", "line", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "access": {"enum": ["input", "output"]},
+        "line": {"type": "integer", "minimum": 1},
+        "evidence": {"type": "string", "minLength": 1},
+        "confidence": {"const": "static_literal_hint"}
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["name", "type", "migration_action", "safe_defaults", "static_path_hints", "review_reason_codes"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["python", "matlab"]},
+        "migration_action": {"enum": ["add_safe_python_defaults", "unchanged"]},
+        "safe_defaults": {"type": "object"},
+        "static_path_hints": {"type": "array", "items": {"$ref": "#/$defs/hint"}},
+        "review_reason_codes": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["step", "code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/execution-plan.schema.json",
+  "title": "Passive pipeline execution plan",
+  "type": "object",
+  "required": [
+    "schema_version", "phase", "mode", "case_steps_executed",
+    "files_written", "active_preflight_performed", "case_dir",
+    "manifest_schema_version", "profile", "selection",
+    "postprocessing_planned", "state", "steps", "summary", "errors",
+    "diagnostics_schema_version", "diagnostics", "diagnostic_summary"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "phase": {"const": "plan"},
+    "mode": {"const": "passive_read_only"},
+    "case_steps_executed": {"const": false},
+    "files_written": {"const": false},
+    "active_preflight_performed": {"const": false},
+    "case_dir": {"type": "string", "minLength": 1},
+    "manifest_schema_version": {"type": "integer", "enum": [1, 2]},
+    "profile": {"enum": ["explore", "practice", "submission"]},
+    "selection": {
+      "type": "object",
+      "required": ["from", "only", "force"],
+      "properties": {
+        "from": {"type": ["string", "null"]},
+        "only": {"$ref": "#/$defs/strings"},
+        "force": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "postprocessing_planned": {"type": "boolean"},
+    "state": {
+      "type": "object",
+      "required": ["path", "status"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "status": {"enum": ["missing", "invalid", "loaded"]}
+      }
+    },
+    "steps": {"type": "array", "items": {"$ref": "#/$defs/step"}},
+    "data_preparation": {
+      "type": "object",
+      "required": ["configured", "action"],
+      "properties": {
+        "configured": {"type": "boolean"},
+        "action": {"enum": ["not_configured", "execute", "cache-hit", "blocked"]},
+        "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "datasets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "action"],
+            "properties": {
+              "name": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"},
+              "action": {"enum": ["execute", "cache-hit", "blocked"]},
+              "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["execute", "cache-hit", "verify-evidence", "blocked"],
+      "properties": {
+        "execute": {"type": "integer", "minimum": 0},
+        "cache-hit": {"type": "integer", "minimum": 0},
+        "verify-evidence": {"type": "integer", "minimum": 0},
+        "blocked": {"type": "integer", "minimum": 0}
+      }
+    },
+    "errors": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "step": {
+      "type": "object",
+      "required": ["name", "type", "action", "reason_code"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["python", "matlab"]},
+        "action": {"enum": ["execute", "cache-hit", "verify-evidence", "blocked"]},
+        "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}
+      }
+    }
+  }
+}

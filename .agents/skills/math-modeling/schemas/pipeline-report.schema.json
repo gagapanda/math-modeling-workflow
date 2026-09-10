@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/pipeline-report.schema.json",
+  "title": "Pipeline build report",
+  "type": "object",
+  "required": [
+    "report_schema_version",
+    "phase",
+    "profile",
+    "ready_for_visual_review",
+    "steps",
+    "errors",
+    "diagnostics_schema_version",
+    "diagnostics",
+    "diagnostic_summary"
+  ],
+  "properties": {
+    "report_schema_version": {"type": "integer", "const": 1},
+    "phase": {"const": "build"},
+    "profile": {"enum": ["explore", "practice", "submission"]},
+    "ready_for_visual_review": {"type": "boolean"},
+    "steps": {"type": "array", "items": {"type": "object"}},
+    "errors": {"$ref": "#/$defs/strings"},
+    "generated_at": {"type": "string", "minLength": 1},
+    "last_successful_step": {"type": ["string", "null"]},
+    "failure": {"$ref": "#/$defs/failure"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"$ref": "#/$defs/diagnostic"}},
+    "diagnostic_summary": {"$ref": "#/$defs/summary"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "failure": {
+      "type": "object",
+      "required": ["failed_stage", "cause_code", "retryable", "remediation"],
+      "properties": {
+        "failed_stage": {"type": "string", "minLength": 1},
+        "cause_code": {"type": "string", "minLength": 1},
+        "retryable": {"type": "boolean"},
+        "remediation": {"$ref": "#/$defs/strings"},
+        "resume_command": {"type": ["string", "null"]}
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "required": ["severity", "code", "stage", "message", "remediation"],
+      "properties": {
+        "severity": {"enum": ["error", "warning", "info"]},
+        "code": {"type": "string", "minLength": 1},
+        "stage": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "remediation": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["error", "warning", "info"],
+      "properties": {
+        "error": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

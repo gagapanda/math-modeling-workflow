@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/diagnostics.schema.json",
+  "title": "Modeling workflow diagnostic envelope",
+  "type": "object",
+  "required": ["diagnostics_schema_version", "diagnostics", "diagnostic_summary"],
+  "properties": {
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/diagnostic"}
+    },
+    "diagnostic_summary": {
+      "type": "object",
+      "required": ["error", "warning", "info"],
+      "additionalProperties": false,
+      "properties": {
+        "error": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
+  "$defs": {
+    "diagnostic": {
+      "type": "object",
+      "required": ["severity", "code", "stage", "message", "remediation"],
+      "additionalProperties": false,
+      "properties": {
+        "severity": {"enum": ["error", "warning", "info"]},
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "stage": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "message": {"type": "string", "minLength": 1},
+        "remediation": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "retry_command": {"type": "string", "minLength": 1},
+        "json_pointer": {"type": "string", "pattern": "^/"}
+      }
+    }
+  }
+}

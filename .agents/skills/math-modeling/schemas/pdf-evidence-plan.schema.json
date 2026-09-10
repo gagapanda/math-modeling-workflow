@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/math-modeling/pdf-evidence-plan.schema.json",
+  "title": "Selected PDF evidence preparation plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_pdf", "source_sha256", "source_label", "source_provenance", "purpose", "pages", "dpi"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "source_pdf": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_label": {"type": "string", "minLength": 1},
+    "source_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "note"],
+      "properties": {
+        "status": {"enum": ["official", "published_collection", "downloaded_unverified", "other"]},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "purpose": {"type": "string", "minLength": 1},
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1}
+    },
+    "dpi": {"type": "integer", "minimum": 120, "maximum": 400}
+  }
+}

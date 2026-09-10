@@ -1,0 +1,449 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow.schema.json",
+  "title": "Mathematical modeling workflow manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "profile": {
+      "enum": [
+        "explore",
+        "practice",
+        "submission"
+      ]
+    },
+    "compliance": {
+      "$ref": "#/$defs/path"
+    },
+    "m6_compliance_plan": {
+      "$ref": "#/$defs/path"
+    },
+    "m7_f2_plan": {
+      "$ref": "#/$defs/path"
+    },
+    "quality_gate_plan": {
+      "$ref": "#/$defs/path"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1
+    },
+    "artifacts": {
+      "$ref": "#/$defs/artifacts"
+    },
+    "audit": {
+      "$ref": "#/$defs/audit"
+    },
+    "data_preparation": {
+      "$ref": "#/$defs/dataPreparation"
+    },
+    "data_preparations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/namedDataPreparation"
+      }
+    },
+    "paper_authority_plan": {
+      "$ref": "#/$defs/path"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "schema_version"
+        ],
+        "properties": {
+          "schema_version": {
+            "const": 1
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": false,
+          "compliance": false,
+          "data_preparation": false,
+          "data_preparations": false,
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/v1Step"
+            }
+          },
+          "paper_authority_plan": false,
+          "m6_compliance_plan": false,
+          "m7_f2_plan": false
+        }
+      },
+      "else": {
+        "properties": {
+          "steps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/v2Step"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "profile"
+        ],
+        "properties": {
+          "profile": {
+            "const": "submission"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "compliance"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "profile"
+        ],
+        "properties": {
+          "profile": {
+            "const": "explore"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "artifacts"
+        ]
+      }
+    },
+    {
+      "not": {
+        "required": [
+          "data_preparation",
+          "data_preparations"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pathArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/path"
+      }
+    },
+    "pythonV1": {
+      "type": "object",
+      "required": [
+        "name",
+        "script"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        },
+        "type": {
+          "const": "python"
+        },
+        "script": {
+          "$ref": "#/$defs/path"
+        },
+        "args": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "matlab": {
+      "type": "object",
+      "required": [
+        "name",
+        "type",
+        "script"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        },
+        "type": {
+          "const": "matlab"
+        },
+        "script": {
+          "$ref": "#/$defs/path"
+        },
+        "args": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "runner": {
+          "enum": [
+            "mcp-evidence",
+            "batch"
+          ]
+        },
+        "test": {
+          "$ref": "#/$defs/path"
+        },
+        "dependencies": {
+          "$ref": "#/$defs/pathArray"
+        },
+        "outputs": {
+          "$ref": "#/$defs/pathArray"
+        },
+        "evidence": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "v1Step": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/pythonV1"
+        },
+        {
+          "$ref": "#/$defs/matlab"
+        }
+      ]
+    },
+    "pythonV2": {
+      "type": "object",
+      "required": [
+        "name",
+        "script"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        },
+        "type": {
+          "const": "python"
+        },
+        "script": {
+          "$ref": "#/$defs/path"
+        },
+        "args": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "inputs": {
+          "$ref": "#/$defs/pathArray"
+        },
+        "outputs": {
+          "$ref": "#/$defs/pathArray"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "cache": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "required": [
+          "cache"
+        ],
+        "properties": {
+          "cache": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "outputs"
+        ],
+        "properties": {
+          "outputs": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "v2Step": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/pythonV2"
+        },
+        {
+          "$ref": "#/$defs/matlab"
+        }
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "required": [
+        "docx",
+        "pdf",
+        "render_dir",
+        "visual_review"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "docx": {
+          "$ref": "#/$defs/path"
+        },
+        "pdf": {
+          "$ref": "#/$defs/path"
+        },
+        "render_dir": {
+          "$ref": "#/$defs/path"
+        },
+        "visual_review": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "dataPreparation": {
+      "type": "object",
+      "required": [
+        "input",
+        "raw_audit_output"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "$ref": "#/$defs/path"
+        },
+        "raw_audit_output": {
+          "$ref": "#/$defs/path"
+        },
+        "id_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "target_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "time_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "group_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "cleaning_plan": {
+          "$ref": "#/$defs/path"
+        },
+        "cleaning_output": {
+          "$ref": "#/$defs/path"
+        },
+        "processed_audit_output": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "namedDataPreparation": {
+      "type": "object",
+      "required": [
+        "name",
+        "input",
+        "raw_audit_output"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+        },
+        "input": {
+          "$ref": "#/$defs/path"
+        },
+        "raw_audit_output": {
+          "$ref": "#/$defs/path"
+        },
+        "id_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "target_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "time_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "group_columns": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "cleaning_plan": {
+          "$ref": "#/$defs/path"
+        },
+        "cleaning_output": {
+          "$ref": "#/$defs/path"
+        },
+        "processed_audit_output": {
+          "$ref": "#/$defs/path"
+        }
+      }
+    },
+    "uniqueStringArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page_size": {
+          "enum": [
+            "any",
+            "a4",
+            "letter"
+          ]
+        },
+        "orientation": {
+          "enum": [
+            "any",
+            "portrait",
+            "landscape"
+          ]
+        },
+        "render_dpi": {
+          "type": "integer",
+          "minimum": 72,
+          "maximum": 600
+        },
+        "forbid": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

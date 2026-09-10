@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/workflow-migration-rehearsal.schema.json",
+  "title": "Isolated workflow v1-to-v2 migration rehearsal",
+  "type": "object",
+  "required": [
+    "schema_version", "command", "mode", "source_case_dir",
+    "source_manifest_path", "source_files_written", "source_unchanged",
+    "case_steps_executed", "external_tools_started", "applicable",
+    "status", "rehearsal_passed", "analysis_valid",
+    "candidate_valid_in_isolation", "candidate_sha256",
+    "temporary_workspace_created", "temporary_workspace_removed",
+    "copied_files", "isolated_plan", "review_checklist", "summary",
+    "errors", "warnings", "diagnostics_schema_version",
+    "diagnostics", "diagnostic_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "command": {"const": "rehearse_workflow_migration"},
+    "mode": {"const": "isolated_temporary_rehearsal"},
+    "source_case_dir": {"type": "string", "minLength": 1},
+    "source_manifest_path": {"type": "string", "minLength": 1},
+    "source_files_written": {"const": false},
+    "source_unchanged": {"type": "boolean"},
+    "case_steps_executed": {"const": false},
+    "external_tools_started": {"const": false},
+    "applicable": {"type": "boolean"},
+    "status": {"enum": ["passed", "not_applicable", "failed"]},
+    "rehearsal_passed": {"type": "boolean"},
+    "analysis_valid": {"type": "boolean"},
+    "candidate_valid_in_isolation": {"type": "boolean"},
+    "candidate_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "temporary_workspace_created": {"type": "boolean"},
+    "temporary_workspace_removed": {"type": "boolean"},
+    "copied_files": {"type": "array", "items": {"$ref": "#/$defs/copiedFile"}},
+    "isolated_plan": {"$ref": "#/$defs/plan"},
+    "review_checklist": {"type": "array", "items": {"$ref": "#/$defs/checklistStep"}},
+    "summary": {"$ref": "#/$defs/summary"},
+    "errors": {"$ref": "#/$defs/strings"},
+    "warnings": {"$ref": "#/$defs/strings"},
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {"type": "array", "items": {"type": "object"}},
+    "diagnostic_summary": {"type": "object"}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "copiedFile": {
+      "type": "object",
+      "required": ["path", "sha256", "purposes"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "purposes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "plan": {
+      "type": "object",
+      "required": ["validated", "summary", "reason_codes", "blocked_steps"],
+      "additionalProperties": false,
+      "properties": {
+        "validated": {"type": "boolean"},
+        "summary": {"type": ["object", "null"]},
+        "reason_codes": {"$ref": "#/$defs/strings"},
+        "blocked_steps": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "reviewCheck": {
+      "type": "object",
+      "required": ["code", "status", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "status": {"enum": ["pending_human_review", "not_applicable"]},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
+    "hint": {
+      "type": "object",
+      "required": ["path", "access", "line", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "access": {"enum": ["input", "output"]},
+        "line": {"type": "integer", "minimum": 1},
+        "evidence": {"type": "string", "minLength": 1},
+        "confidence": {"const": "static_literal_hint"}
+      }
+    },
+    "checklistStep": {
+      "type": "object",
+      "required": ["step", "type", "status", "static_path_hints", "checks"],
+      "additionalProperties": false,
+      "properties": {
+        "step": {"type": "string", "minLength": 1},
+        "type": {"enum": ["python", "matlab"]},
+        "status": {"enum": ["pending_human_review", "not_applicable"]},
+        "static_path_hints": {"type": "array", "items": {"$ref": "#/$defs/hint"}},
+        "checks": {"type": "array", "items": {"$ref": "#/$defs/reviewCheck"}}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["copied_files", "python_steps_pending_review", "matlab_steps_unchanged", "static_path_hints", "blocked_plan_steps", "cache_enable_recommended"],
+      "additionalProperties": false,
+      "properties": {
+        "copied_files": {"type": "integer", "minimum": 0},
+        "python_steps_pending_review": {"type": "integer", "minimum": 0},
+        "matlab_steps_unchanged": {"type": "integer", "minimum": 0},
+        "static_path_hints": {"type": "integer", "minimum": 0},
+        "blocked_plan_steps": {"type": "integer", "minimum": 0},
+        "cache_enable_recommended": {"type": "integer", "const": 0}
+      }
+    }
+  }
+}

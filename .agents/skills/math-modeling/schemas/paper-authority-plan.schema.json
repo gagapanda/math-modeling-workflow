@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/paper-authority-plan.schema.json",
+  "title": "M5 paper-authority plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "current_state", "result_register", "freeze_manifest", "paper_source", "draft_marker"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "mode": {"type": "string", "enum": ["draft", "authoritative"]},
+    "current_state": {"type": "string", "minLength": 1},
+    "result_register": {"type": "string", "minLength": 1},
+    "freeze_manifest": {"type": "string"},
+    "paper_source": {"type": "string", "minLength": 1},
+    "draft_marker": {"type": "string", "const": "NON_AUTHORITATIVE REVIEW DRAFT"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "draft"}}},
+      "then": {"properties": {"freeze_manifest": {"const": ""}}},
+      "else": {"properties": {"freeze_manifest": {"minLength": 1}}}
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/submission-compliance.schema.json",
+  "title": "Submission rules and AI-use compliance evidence",
+  "type": "object",
+  "required": ["schema_version", "competition", "year", "rules", "ai"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "competition": {"type": "string", "minLength": 1},
+    "year": {"type": "integer", "minimum": 2000, "maximum": 2100},
+    "rules": {
+      "type": "object",
+      "required": ["verified_at", "max_age_days", "sources"],
+      "additionalProperties": false,
+      "properties": {
+        "verified_at": {"type": "string", "minLength": 1},
+        "max_age_days": {"type": "integer", "minimum": 1, "maximum": 365},
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^https://[^/\\s]+(?:/.*)?$"}
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "required": ["status", "usage_log", "paper_statement"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["used", "not-used"]},
+        "usage_log": {"type": "string", "minLength": 1},
+        "paper_statement": {"type": "string", "minLength": 1},
+        "detail_pdf": {"type": "string"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["status"],
+            "properties": {"status": {"const": "used"}}
+          },
+          "then": {
+            "required": ["detail_pdf"],
+            "properties": {"detail_pdf": {"minLength": 1}}
+          },
+          "else": {
+            "properties": {"detail_pdf": {"enum": [""]}}
+          }
+        }
+      ]
+    }
+  }
+}
