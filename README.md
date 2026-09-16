@@ -4,47 +4,73 @@
 
 本仓库最适合交给**能够读取整个工作区并执行本地命令的编码型 AI** 使用。它不是一个自动获奖器，也不会用机器检查代替数学正确性、官方规则或人工最终确认。
 
-## 下载后怎么交给 AI
+## 零基础：从下载开始
 
-1. 下载或克隆整个仓库，不要只下载 `SKILL.md`。
-2. 在支持工作区文件与终端的 AI 工具中打开仓库根目录。
-3. 把题目、附件和已有成果放进仓库外的独立案例目录，或先用下面的命令生成案例骨架。
-4. 将这段提示词发给 AI，并替换方括号内容：
+### 1. 下载整个仓库
+
+打开本仓库的 GitHub 页面，点击绿色 **Code** 按钮，再点击 **Download ZIP**。下载完成后解压，得到 `math-modeling-workflow-main` 文件夹。
+
+不要只下载 `SKILL.md`，也不需要把仓库中的文件逐个发给 AI。
+
+### 2. 用 AI 打开文件夹
+
+打开一个能够读取本地文件并运行终端命令的编码型 AI 工具，选择“打开文件夹”或 “Open Folder”，然后选择刚才解压出的 `math-modeling-workflow-main`。
+
+判断工具是否适用很简单：如果 AI 能查看这个文件夹里的文件，并能替你运行 PowerShell 或 Python 命令，就可以使用完整工作流。电脑需要安装 Python 3；不确定时可以让 AI 先检查。
+
+### 3. 把第一句话发给 AI
+
+历史题训练使用下面这句话：
 
 ```text
-请把当前仓库作为数学建模工作流使用。先阅读
-.agents/skills/math-modeling/SKILL.md，再根据任务只读取必要的 references，
-不要一次加载全部文档。
-
-任务模式：[学习 / 历史题练习 / 正式比赛 / 论文审阅]
-题目与附件：[路径]
-已有代码、结果或论文：[路径；没有则写“无”]
-
-请先检查材料、当前状态和缺失信息，说明采用的工作流入口与下一步，
-然后直接开展工作。正式比赛必须重新核对当届官方规则并持续记录 AI 使用；
-不得把脚本 PASS 当作模型正确、人工验收或正式提交完成。
+请先阅读 .agents/skills/math-modeling/SKILL.md，使用这个数学建模工作流。
+请检查运行环境，并为我创建一个名为 my-case 的 practice 案例，然后告诉我题目和附件应该放在哪里。
 ```
 
-如果使用的是只能接收聊天附件、不能访问文件系统或终端的普通对话 AI，它可以阅读部分材料并给建议，但无法完整运行本仓库的脚本、复现实验或验证提交包。这种方式不等同于启用完整工作流。
+正式比赛时，把 `practice` 改成 `submission`，并补充一句：
 
-## 三分钟开始
+```text
+这是正式比赛，请先核对当届官方规则，并从现在开始维护 AI 使用记录。
+```
 
-要求：Git、Python 3，以及能够运行本地命令的 AI 工具。Windows 提供了统一的 PowerShell 入口；其他系统可以直接调用对应的 Python 脚本。
+### 4. 放入题目和附件
+
+AI 会创建案例文件夹，并告诉你题目目录。通常是：
+
+```text
+work/my-case/problem/
+```
+
+把题目 PDF、数据表和附件复制到这个目录。已有代码、结果或论文也可以一并告诉 AI，但不要覆盖原始题目文件。
+
+### 5. 让 AI 开始工作
+
+文件放好后发送：
+
+```text
+题目和附件已经放好了。请检查材料是否完整，按工作流开始题目拆解；
+只在确实会改变建模方向时向我提问，其余步骤直接执行并保留验证证据。
+```
+
+之后继续在同一个 AI 对话和同一个案例目录中工作。中断后让 AI 读取案例根目录的 `CURRENT-STATE.md` 再继续。
+
+### 6. 确认不是普通附件聊天
+
+如果 AI 只能接收聊天附件，不能打开整个文件夹或运行命令，它仍可帮助读题和提出建议，但不能完整执行脚本、复现实验、生成证据链或验证提交包。这种方式不等于启用完整工作流。
+
+## 使用 Git 下载（可选）
+
+熟悉 Git 的用户可以这样开始：
 
 ```powershell
 git clone https://github.com/gagapanda/math-modeling-workflow.git
 cd math-modeling-workflow
-
-# 查看入口
-.\mm.ps1 --help
-
-# 创建一个历史题练习案例
-.\mm.ps1 start demo-case --root .\work --profile practice --json
+.\mm.ps1 start my-case --root .\work --profile practice --json
 ```
 
-随后把题目和附件放入 `work/demo-case/problem/`，在 AI 工具中发送上面的提示词，并将题目路径写为 `work/demo-case/problem/`。
+Windows 提供 `mm.ps1` 统一入口；其他系统可以直接运行 `.agents/skills/math-modeling/scripts/mm.py`。
 
-### 工作模式
+## 工作模式
 
 | 模式 | 用途 | 入口参数 |
 |---|---|---|
@@ -69,10 +95,10 @@ cd math-modeling-workflow
 
 ```powershell
 # 查看案例状态，不修改案例
-.\mm.ps1 status --case-dir .\work\demo-case --json
+.\mm.ps1 status --case-dir .\work\my-case --json
 
 # 汇总基础检查
-.\mm.ps1 check --case-dir .\work\demo-case --json
+.\mm.ps1 check --case-dir .\work\my-case --json
 
 # 查看候选稿管理命令
 .\mm.ps1 candidate --help
