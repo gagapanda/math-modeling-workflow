@@ -15,26 +15,26 @@
   "files": [
     {
       "path": ".agents/skills/math-modeling/CHANGELOG.md",
-      "sha256": "7e7c319a3fbb998ee8c6d2e04c73cc6859b684fcc6eae71e2c5aff233779b4b0",
+      "sha256": "21eb41ff84de91c8d7956d5bc9af2bb82ab94b186e0b42da0a4c9f57c69dd1b3",
       "source_class": "project_source_2026-09-15",
       "source_reference": "Current workflow source reviewed for the 2026-09-15 public update",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "ca0aa278242ab4a0b9d6d08765111a847c29bc4902e25a248f4f009cb799156e",
       "migration_decision": "MIGRATED_UNCHANGED",
-      "migration_destination_sha256": "7e7c319a3fbb998ee8c6d2e04c73cc6859b684fcc6eae71e2c5aff233779b4b0",
+      "migration_destination_sha256": "21eb41ff84de91c8d7956d5bc9af2bb82ab94b186e0b42da0a4c9f57c69dd1b3",
       "authorization_evidence": "Continuation of the repository's user-authorized MIT project-source policy; the 2026-09-15 release excludes private evidence, third-party templates, fonts, binaries, and generated outputs."
     },
     {
       "path": ".agents/skills/math-modeling/SKILL.md",
-      "sha256": "d6dea1c8fc0bd6bf27fe98e6971eb91d44112ab7dfbc3ca78a556d6b76f4c052",
+      "sha256": "80eb4cf5cd7513cf49ed5f54dc544cb81594e0aeecfca3271c8795dea516e4a8",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / SKILL.md; C1 public export adaptation",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "5b2aa0831c66005387187926d5629ec8b4ba05beb4b552b7a27a1680d13fa4b4",
       "migration_decision": "MIGRATED_ADAPTED",
-      "migration_destination_sha256": "d6dea1c8fc0bd6bf27fe98e6971eb91d44112ab7dfbc3ca78a556d6b76f4c052",
+      "migration_destination_sha256": "80eb4cf5cd7513cf49ed5f54dc544cb81594e0aeecfca3271c8795dea516e4a8",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },
@@ -571,6 +571,18 @@
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },
     {
+      "path": ".agents/skills/math-modeling/references/paper-abstract-writing.md",
+      "sha256": "7b5e04df8b41bf086ffa2a66bae0cd1ed44cced79e690430eeaa39148e2f94c2",
+      "source_class": "project_source_2026-09-15",
+      "source_reference": "Current workflow source reviewed for the 2026-09-15 public update",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "original_source_sha256": "7b5e04df8b41bf086ffa2a66bae0cd1ed44cced79e690430eeaa39148e2f94c2",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "7b5e04df8b41bf086ffa2a66bae0cd1ed44cced79e690430eeaa39148e2f94c2",
+      "authorization_evidence": "Continuation of the repository's user-authorized MIT project-source policy; the 2026-09-15 release excludes private evidence, third-party templates, fonts, binaries, and generated outputs."
+    },
+    {
       "path": ".agents/skills/math-modeling/references/paper-claim-figure-innovation-card.md",
       "sha256": "ffb512f3fc82c84bbc4bf45e6db6e64a2e91b051bc021e091b482f43555a2667",
       "source_class": "migrated_workflow_candidate",
@@ -636,14 +648,14 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/paper-production.md",
-      "sha256": "43b6506ee09253c47c7121a3a965657581a15dc9e0a994fc77438e7ddcca0d51",
+      "sha256": "34f6aae9507c8544e5c8a9734df592b82587b2951e79c7bf80a0bfbd2f45d18a",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / references/paper-production.md",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "9774357f933cdd697e36f8fb640a0439cc3ad8a3772b8fd6140ff25ceb0e7ca7",
       "migration_decision": "MIGRATED_ADAPTED",
-      "migration_destination_sha256": "43b6506ee09253c47c7121a3a965657581a15dc9e0a994fc77438e7ddcca0d51",
+      "migration_destination_sha256": "34f6aae9507c8544e5c8a9734df592b82587b2951e79c7bf80a0bfbd2f45d18a",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },
@@ -2188,14 +2200,14 @@
     },
     {
       "path": ".agents/skills/math-modeling/scripts/scaffold_case.py",
-      "sha256": "66545faab04b2c97fc286615f3d99a4074129916803bce7381a0b1de8609c0a7",
+      "sha256": "cae7490967def9afa2a90b284f5132351bd8db9c1c6b45c779201f0c056f6415",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / scripts/scaffold_case.py",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "593739b3912d6a9664dba1c7d3127393c6adfdadd3793225ac7b75f685886d2c",
       "migration_decision": "MIGRATED_UNCHANGED",
-      "migration_destination_sha256": "66545faab04b2c97fc286615f3d99a4074129916803bce7381a0b1de8609c0a7",
+      "migration_destination_sha256": "cae7490967def9afa2a90b284f5132351bd8db9c1c6b45c779201f0c056f6415",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },
@@ -2302,6 +2314,18 @@
       "migration_destination_sha256": "d4522a9bac04b8b5e3c9549b016f61d364c942b896d333e9c921b03c71fb0873",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
+    },
+    {
+      "path": ".agents/skills/math-modeling/templates/paper-abstract-evidence.md",
+      "sha256": "ca24c8df5eeb4a69d2dca1e628a6fee5acb18f00cfc49b973c6e0cc1b13563ac",
+      "source_class": "project_source_2026-09-15",
+      "source_reference": "Current workflow source reviewed for the 2026-09-15 public update",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "original_source_sha256": "ca24c8df5eeb4a69d2dca1e628a6fee5acb18f00cfc49b973c6e0cc1b13563ac",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "ca24c8df5eeb4a69d2dca1e628a6fee5acb18f00cfc49b973c6e0cc1b13563ac",
+      "authorization_evidence": "Continuation of the repository's user-authorized MIT project-source policy; the 2026-09-15 release excludes private evidence, third-party templates, fonts, binaries, and generated outputs."
     },
     {
       "path": ".agents/skills/math-modeling/templates/paper-chapter-integration.md",
@@ -2802,14 +2826,14 @@
     },
     {
       "path": ".agents/skills/math-modeling/tests/test_workflow.py",
-      "sha256": "817d94c8fdaf172760b705553f20c5820e58f3cc1ef01491c61468f449d4bfad",
+      "sha256": "5b7497af484cd684ab2af96bad48df447ac76f99c43d48127a5be45898fcd75a",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / tests/test_workflow.py",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "e89103f5c384314c6544c465fb62da04e80ca85211f95bc2f46606bfeb091a93",
       "migration_decision": "MIGRATED_ADAPTED",
-      "migration_destination_sha256": "817d94c8fdaf172760b705553f20c5820e58f3cc1ef01491c61468f449d4bfad",
+      "migration_destination_sha256": "5b7497af484cd684ab2af96bad48df447ac76f99c43d48127a5be45898fcd75a",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },

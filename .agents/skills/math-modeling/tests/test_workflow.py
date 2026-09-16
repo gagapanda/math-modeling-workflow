@@ -949,6 +949,12 @@ class WorkflowTests(unittest.TestCase):
             self.assertTrue(builder.is_file())
             self.assertTrue(analysis.is_file())
             self.assertTrue(paper_source.is_file())
+            abstract_evidence = root / "case-a" / "paper" / "abstract-evidence.md"
+            self.assertTrue(abstract_evidence.is_file())
+            abstract_evidence_text = abstract_evidence.read_text(encoding="utf-8")
+            self.assertIn("结果 ID / 精确值 / 单位", abstract_evidence_text)
+            self.assertIn("只看摘要重建", abstract_evidence_text)
+            self.assertIn("终稿对账", abstract_evidence_text)
             paper_text = paper_source.read_text(encoding="utf-8")
             for heading in (
                 "## Problem Analysis And Technical Route",
@@ -1013,6 +1019,7 @@ class WorkflowTests(unittest.TestCase):
             self.assertIn("Main-text completeness reviewed by subproblem", qa_text)
             self.assertIn("recorded separately", qa_text)
             self.assertIn("Results frozen before abstract", qa_text)
+            self.assertIn("Abstract evidence sheet completed", qa_text)
             self.assertIn("opens with a direct answer", qa_text)
             self.assertIn("Core formulas have purpose", qa_text)
             self.assertIn("Reference metadata verified", qa_text)
@@ -1065,6 +1072,7 @@ class WorkflowTests(unittest.TestCase):
             builder.write_text("# preserved builder\n", encoding="utf-8")
             analysis.write_text("# preserved analysis\n", encoding="utf-8")
             paper_source.write_text("# Preserved paper\n", encoding="utf-8")
+            abstract_evidence.write_text("# Preserved abstract evidence\n", encoding="utf-8")
             current_state.write_text("# Preserved current state\n", encoding="utf-8")
             second = run_script("scaffold_case.py", "case-a", "--root", str(root))
             self.assertEqual(second.returncode, 0, second.stderr)
@@ -1076,6 +1084,10 @@ class WorkflowTests(unittest.TestCase):
             )
             self.assertEqual(
                 paper_source.read_text(encoding="utf-8"), "# Preserved paper\n"
+            )
+            self.assertEqual(
+                abstract_evidence.read_text(encoding="utf-8"),
+                "# Preserved abstract evidence\n",
             )
             self.assertEqual(
                 current_state.read_text(encoding="utf-8"),
@@ -1106,6 +1118,9 @@ class WorkflowTests(unittest.TestCase):
             )
             self.assertEqual(explore_workflow["profile"], "explore")
             self.assertNotIn("artifacts", explore_workflow)
+            self.assertFalse(
+                (root / "case-explore" / "paper" / "abstract-evidence.md").exists()
+            )
             submission_only = (
                 "compliance/m6-plan.json",
                 "compliance/official-rules-snapshot.md",
@@ -3003,7 +3018,6 @@ class WorkflowTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
 
 
 
