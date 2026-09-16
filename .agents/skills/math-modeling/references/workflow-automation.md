@@ -149,9 +149,18 @@ Diagnose the complete configured environment and declared files without executin
 ```powershell
 python scripts/doctor.py --case-dir <case-dir> --phase build --json
 python scripts/doctor.py --case-dir <case-dir> --phase finalize --json
+python scripts/audit_authority_heartbeat.py --case-dir <case-dir> --json
+python scripts/mm.py status <case-dir> --json
+python scripts/mm.py check <case-dir> --json
 ```
 
 `doctor.py` reports `mode=passive_read_only`. Build mode validates the manifest, declared scripts and inputs, required Python modules, configured MATLAB runner, passively discoverable export/render backends, and the nearest existing output parent. Finalize mode additionally requires the final DOCX, PDF, rendered-page directory, visual-review record, and submission compliance file when configured. Passive backend discovery does not prove that Word COM, LibreOffice, MATLAB, or a renderer can start. Use `doctor.py --active-probe` when you need the same real startup and output-directory writability checks used by `preflight.py`; active probe results are nested under `environment.active_probe_report` and do not execute case modeling steps.
+
+`audit_authority_heartbeat.py` reports `mode=passive_read_only` and never edits the case. It validates the structured `CURRENT-STATE.md` authority table, requires selected artifacts to use existing case-relative paths, checks F1/M7/F2 status consistency, scans common active control files for unresolved markers, and reconciles standard candidate directories against the one selected candidate and the recorded superseded list. A clean report proves pointer consistency only; it does not prove model validity, paper quality, human acceptance, compliance, upload, or receipt authenticity.
+
+`mm.py` is a thin convenience entry point over the established tools. `start` delegates to `scaffold_case.py`; `status` delegates to the authority heartbeat; `check` aggregates heartbeat, `doctor.py`, and manifest-only validation; `freeze prepare|finalize|verify` delegates to `freeze_results.py`; and `package` delegates to `package_submission.py`. It preserves delegated exit codes and never turns a technical pass into a human decision. On this workspace, `mm.ps1` selects the project `.venv` when present, so `./mm.ps1 <command>` is the shortest local form.
+
+Candidate lineage uses `authority/candidate-registry.json` and `manage_candidates.py`. `register` records a case-relative file or directory with SHA-256, byte count, file count, source, and registration time. `select` permits one current entry per result, paper, and support kind; replacing a current entry requires the explicit `--supersede-current` flag and a non-empty reason. `supersede` records a replacement without deletion. `list` rehashes registered content by default and fails on drift. The convenience form is `./mm.ps1 candidate <action> ...`. Registry selection still requires a matching `CURRENT-STATE.md` update before the authority heartbeat can pass.
 
 On Windows, LibreOffice probing and export prefer `soffice.com` over the GUI-oriented `soffice.exe`. Each export uses a temporary isolated LibreOffice user profile so an existing desktop session or stale profile lock does not capture the headless request.
 

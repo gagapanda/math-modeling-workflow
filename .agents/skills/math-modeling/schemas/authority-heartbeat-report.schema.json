@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/authority-heartbeat-report.schema.json",
+  "title": "Authority heartbeat audit report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "command",
+    "mode",
+    "case_dir",
+    "current_state",
+    "healthy",
+    "fields",
+    "missing_fields",
+    "duplicate_fields",
+    "path_checks",
+    "control_files",
+    "candidate_lineage",
+    "diagnostics_schema_version",
+    "diagnostics",
+    "diagnostic_summary"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "generated_at": {"type": "string", "minLength": 1},
+    "command": {"type": "string", "const": "authority-heartbeat"},
+    "mode": {"type": "string", "const": "passive_read_only"},
+    "case_dir": {"type": "string", "minLength": 1},
+    "current_state": {"type": "string", "minLength": 1},
+    "healthy": {"type": "boolean"},
+    "fields": {"type": "object", "additionalProperties": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "duplicate_fields": {"type": "array", "items": {"type": "string"}},
+    "path_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "value", "status"],
+        "properties": {
+          "field": {"type": "string"},
+          "value": {"type": "string"},
+          "relative_path": {"type": "string"},
+          "status": {"type": "string", "enum": ["not_selected", "invalid", "exists", "missing"]}
+        }
+      }
+    },
+    "control_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "status", "markers"],
+        "properties": {
+          "path": {"type": "string"},
+          "status": {"type": "string", "enum": ["absent", "invalid", "clear", "unresolved_markers"]},
+          "markers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["line", "text"],
+              "properties": {
+                "line": {"type": "integer", "minimum": 1},
+                "text": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "candidate_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registry", "roots", "found", "selected", "superseded", "retained", "unresolved"],
+      "properties": {
+        "registry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "present", "valid", "revision", "current", "errors"],
+          "properties": {
+            "path": {"type": "string"},
+            "present": {"type": "boolean"},
+            "valid": {"type": "boolean"},
+            "revision": {"type": ["integer", "null"], "minimum": 0},
+            "current": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["result", "paper", "support"],
+              "properties": {
+                "result": {"type": "array", "items": {"type": "string"}},
+                "paper": {"type": "array", "items": {"type": "string"}},
+                "support": {"type": "array", "items": {"type": "string"}}
+              }
+            },
+            "errors": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "roots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "present"],
+            "properties": {
+              "path": {"type": "string"},
+              "present": {"type": "boolean"}
+            }
+          }
+        },
+        "found": {"type": "array", "items": {"type": "string"}},
+        "selected": {"type": "array", "items": {"type": "string"}},
+        "superseded": {"type": "array", "items": {"type": "string"}},
+        "retained": {"type": "array", "items": {"type": "string"}},
+        "unresolved": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "diagnostics_schema_version": {"type": "integer", "const": 1},
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code", "stage", "message", "remediation"],
+        "properties": {
+          "severity": {"type": "string", "enum": ["error", "warning", "info"]},
+          "code": {"type": "string"},
+          "stage": {"type": "string"},
+          "message": {"type": "string"},
+          "remediation": {"type": "array", "items": {"type": "string"}},
+          "retry_command": {"type": "string"},
+          "json_pointer": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "diagnostic_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["error", "warning", "info"],
+      "properties": {
+        "error": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

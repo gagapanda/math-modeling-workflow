@@ -48,6 +48,7 @@ DIRECTORIES = (
     "notebooks",
     "figures",
     "results",
+    "authority",
     "paper",
     "ai",
     "compliance",
@@ -56,6 +57,14 @@ DIRECTORIES = (
 )
 
 FILES = {
+    "authority/candidate-registry.json": (
+        "{\n"
+        '  "schema_version": 1,\n'
+        '  "revision": 0,\n'
+        '  "updated_at": null,\n'
+        '  "candidates": []\n'
+        "}\n"
+    ),
     "problem/statement.md": "# Problem Statement\n\nTODO: Preserve or link the official statement and attachments.\n",
     "problem/requirements.md": (
         "# Requirements\n\n"
@@ -558,6 +567,12 @@ def main() -> int:
             TEMPLATES / "paper-closeout-review.json"
         ).read_text(encoding="utf-8")
         validate_destination(case_dir / "paper/closeout-review.json")
+        for destination, template in (
+            ("paper/integration-plan.json", "paper-integration-plan.json"),
+            ("paper/chapter-integration.md", "paper-chapter-integration.md"),
+        ):
+            validate_destination(case_dir / destination)
+            scaffold_files[destination] = (TEMPLATES / template).read_text(encoding="utf-8")
 
     created = []
     preserved = []
@@ -587,6 +602,7 @@ def main() -> int:
         json.dumps(
             {
                 "paper_closeout_required": args.profile != "explore",
+                "paper_integration_required": args.profile != "explore",
                 "case_name": case_name,
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "workflow": "math-modeling",
@@ -614,7 +630,6 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
 
 
 

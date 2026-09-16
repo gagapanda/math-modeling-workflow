@@ -58,6 +58,8 @@ Read [paper-closeout.md](paper-closeout.md) for evaluator-facing cleanup, curren
 - Keep complete source code in the appendix or support materials while retaining the essential equations, algorithm explanation, diagnostics, and representative outputs in the main text.
 - Include the official AI-use statement.
 - If AI was used, produce the required detailed AI-use PDF from the reviewed log.
+- Start the AI-detail draft and support-package skeleton when the first executable model exists. Do not defer conversion of the chronological record into the required PDF until the final packaging window.
+- Treat a support archive that omits a rule-required AI-detail PDF as `TECHNICAL_ONLY_SUPPORT_PACKAGE`, regardless of successful CRC, hash, workbook, or clean-replay checks. It cannot be selected by M7 until the exact detail PDF is allowlisted, packed, and rebound to the final archive.
 - Open every final file and visually inspect the complete rendered paper.
 - Re-render after the final layout-sensitive edit and inspect every page, not a sample.
 - Run `scripts/audit_paper_quality_gates.py` from a case-local plan: require explicit

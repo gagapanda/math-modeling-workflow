@@ -10,7 +10,9 @@
 | Last updated at | `NOT_RECORDED` |
 | Last updated by | `RESPONSIBLE_HUMAN_NOT_RECORDED` |
 | Workflow profile | Read from `workflow.json` |
+| Candidate registry | `authority/candidate-registry.json` |
 | Canonical result register | `results/result-register.json` |
+| Current result candidate | `NOT_SELECTED` |
 | F1 status | `NOT_FROZEN` |
 | F1 candidate | `NOT_CREATED` |
 | F1 accepted manifest | `NOT_CREATED` |
@@ -58,6 +60,7 @@
 ## Update Rules
 
 - Update this file when authority changes: result-register selection, F1 candidate creation, F1 acceptance/rejection, F1 verification, thaw, authoritative paper-source change, generated-paper replacement, package selection, or gate reversal.
+- Run `python scripts/audit_authority_heartbeat.py --case-dir <case-dir> --json` after each update. Its read-only report detects pointer, path, control-file, and candidate-lineage drift; it does not select artifacts or sign a gate.
 - Record paths and SHA-256 when available. Never select an artifact only because its name or modification time looks newest.
 - `prepare` creates only `F1_PENDING_HUMAN`; it does not freeze results and cannot make the paper authoritative.
 - Set `Paper authoritative` to `true` only when the responsible human has recorded an accepted decision, `freeze_results.py verify` passes the immutable accepted manifest against current files, and this pointer names that exact manifest and current result register.

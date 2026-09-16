@@ -47,6 +47,7 @@
 
 需要细化时按需下钻，不在本卡复制全部规则：
 
+- 证据齐全但正文仍像检查表时：按 [paper-narrative-rewrite.md](paper-narrative-rewrite.md) 把骨架改成连续论证；不增加固定标题或新审核表。
 - 写作前安排逐问主张和证据：见 [paper-evidence-storyboard.md](paper-evidence-storyboard.md)；
 - 构建、公式导出、分页与视觉检查：见 [paper-production.md](paper-production.md)；
 - 公式、图表、创新、叙事和附录的详细规则：见 [paper-claim-figure-innovation-card.md](paper-claim-figure-innovation-card.md)；
@@ -379,3 +380,7 @@ Q__｜直接回答：________________（单位/条件：____________）
 
 
 
+
+### 完整候选章接入全文
+
+使用 [逐问重建工作表](../templates/paper-chapter-integration.md) 检查“问题转化→必要推导→真实参数代入→同口径比较与选择→图表解释→直接回答与边界”。同一模型更换求解器的结果一致只验证实现，不能当作额外数据或外部验证。每处新增定义同时核对符号表、首定义、单位、下游公式和引用；然后接入现有 [收口门](paper-closeout.md)，而不是再增加阶段链。正文不能恢复论证时继续修改正文，不用机器通过、页数或更多图表替代说服力。

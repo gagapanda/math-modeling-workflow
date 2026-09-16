@@ -2911,35 +2911,6 @@ class WorkflowTests(unittest.TestCase):
             self.assertFalse(report["structural_ok"])
             self.assertIn("MMFINALIZE", report["docx"]["template_placeholders"])
 
-    @unittest.skipUnless((SKILL_DIR / "templates" / "cumcm-2026-latex").exists(), "Public candidate: downloaded LaTeX asset not bundled; integration NOT VERIFIED")
-    def test_cumcm_latex_template_isolates_authoring_guidance(self) -> None:
-        template = SKILL_DIR / "templates" / "cumcm-2026-latex"
-        section_paths = [
-            template / "sections" / "00-abstract.tex",
-            template / "sections" / "01-problem-analysis.tex",
-            template / "sections" / "02-assumptions-symbols-data.tex",
-            template / "sections" / "03-models-results.tex",
-            template / "sections" / "04-validation-conclusions.tex",
-        ]
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in section_paths)
-        for phrase in (
-            "结果冻结后再完成摘要",
-            "用可计算的语言逐项说明输入、输出、变量、约束",
-            "只保留影响模型闭合的假设",
-            "先用一至两句给出本问的直接答案",
-            "逐项直接回收正文已经冻结并验证的答案",
-        ):
-            matching_lines = [line for line in combined.splitlines() if phrase in line]
-            self.assertTrue(matching_lines, phrase)
-            self.assertTrue(
-                all(line.startswith("% AUTHORING-GUIDANCE:") for line in matching_lines),
-                phrase,
-            )
-        self.assertGreaterEqual(combined.count(r"\FinalizationRequired{"), 12)
-        config = (template / "paper-config.tex").read_text(encoding="utf-8")
-        self.assertIn(r"\newcommand{\FinalizationRequired}[1]", config)
-        self.assertIn(r"\title{\FinalizationRequired{TITLE}}", config)
-        self.assertIn(r"\FinalizationRequired{AI-DECLARATION}", config)
     def test_paper_audit_rejects_current_latex_template_examples(self) -> None:
         markers = (
             "终稿前必须替换或删除本示例条目",

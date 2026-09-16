@@ -43,6 +43,6 @@ python -B scripts/check_release_inventory.py --require-release
 
 清单自身 sha256:null 避免递归哈希；其余记录绑定当前文件字节。后续有修改须重新审查及更新清单，新增或未知来源文件不能自动继承 confirmed。`.git`、`.venv`、`local-work`、`__pycache__` 和生成的 toy-figure.png 被排除不等于可以分发。不要整体上传私人目录或直接把未核对的工作树打包。
 
-## 仍需在实际上传前完成
+## 后续更新规则
 
-核对实际暂存/打包集合及存在的 Git 历史、秘密和个人信息；明确用户指定的远程仓库和发布操作。本轮只实施本地许可，不创建远程仓库、不提交、不推送。技术能力边界仍见 [新环境验证](new-environment-validation.md)。
+公开仓库为 `gagapanda/math-modeling-workflow`。每次更新仍须重新核对实际暂存集合、Git 差异、秘密、个人信息和新增来源；既有 MIT 决定不自动放行未知第三方内容。2026-09-16 的更新继续排除私人证据、下载的 LaTeX 类与字体、环境和生成物，并以刷新后的逐文件清单绑定公开源码。技术能力边界仍见 [新环境验证](new-environment-validation.md)。

@@ -506,7 +506,7 @@ def run_finalization(args: argparse.Namespace) -> tuple[dict, Path, Path]:
         metadata_path = case_dir / "case.json"
         metadata = json.loads(metadata_path.read_text(encoding="utf-8-sig")) if metadata_path.exists() else {}
         closeout = (audit_closeout(case_dir, closeout_path, docx, pdf)
-                    if closeout_path.exists() or metadata.get("paper_closeout_required") else
+                    if closeout_path.exists() or metadata.get("paper_closeout_required") or metadata.get("paper_integration_required") else
                     {"required": False, "passed": True, "scope": "not_run_or_not_required", "errors": []})
     except (OSError, ValueError, AttributeError) as exc:
         closeout = {"required": True, "passed": False, "errors": [str(exc)]}

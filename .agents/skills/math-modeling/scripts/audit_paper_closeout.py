@@ -85,6 +85,20 @@ def audit_closeout(case, review, docx, pdf):
             for item in evidence:
                 bound_file(case, item, category)
         report['reviews'] = record['reviews']
+        metadata_path = case / 'case.json'
+        metadata = json.loads(metadata_path.read_text(encoding='utf-8-sig')) if metadata_path.exists() else {}
+        if 'integration' in record:
+            from audit_paper_integration import audit_integration
+            plan_path = bound_file(case, record['integration']['plan'], 'integration plan')
+            plan = json.loads(plan_path.read_text(encoding='utf-8-sig'))
+            report['integration'] = audit_integration(case, source, docx, plan)
+            if not report['integration']['passed']:
+                report['errors'].extend('Integration: ' + e for e in report['integration']['errors'])
+        elif metadata.get('paper_integration_required'):
+            raise ValueError('Required integration plan binding missing')
+        else:
+            report['integration'] = {'status': 'not_run_legacy', 'passed': None}
+
         # This checks record freshness, not whether the named reviewer truly read the evidence.
         report['passed'] = not report['errors']
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:

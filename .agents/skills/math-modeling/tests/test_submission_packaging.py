@@ -275,7 +275,7 @@ class SubmissionPackagingTests(unittest.TestCase):
             (r"r_i=\frac{d_i}{h_i/100},", False),
             (r"C_j=\frac{\sum_{\ell\le j}v_\ell-v_j/2}{\sum_\ell v_\ell}.", False),
             (r"\mathcal B=\{f:f<\min(80, \lfloor f_{\max}/3\rfloor)\},\qquad", False),
-            ("X:\\SyntheticWorkspace\\file.csv", True),
+            ("E:\\Competition\\file.csv", True),
             ("C:/Users/name/file.csv", True),
             ("file:///C:/Users/name/file.csv", True),
             ("/home/user/file.csv", True),
@@ -310,7 +310,7 @@ class SubmissionPackagingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             case_dir, plan_path = self.make_case(Path(temporary))
             (case_dir / "results" / "result.json").write_text(
-                '{"source": "X:/SyntheticWorkspace/private.csv"}\n',
+                '{"source": "E:/Competition/MathModel/private.csv"}\n',
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(ValueError, "local absolute paths"):
