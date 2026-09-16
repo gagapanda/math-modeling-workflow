@@ -2914,9 +2914,9 @@
     },
     {
       "path": "README.md",
-      "sha256": "ed19d059b02c10301444f21e4d4c903c42cfe2444f90c2ff19545a788777a606",
+      "sha256": "069c9237848cc3d8b26e96f33ad70ec85b504f45efc08219c65e3774f4110620",
       "source_class": "project_candidate",
-      "source_reference": "B: public scaffold / README.md; C1 public export adaptation; C2 update; C4 project license and status update",
+      "source_reference": "B: public scaffold / README.md; C1 public export adaptation; C2 update; C4 project license and status update; public AI onboarding rewrite",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "pre_C2_sha256": "7b02527ec83b0f6887981469d0f8e92012a1fb5502632534bcdae570caada316",
