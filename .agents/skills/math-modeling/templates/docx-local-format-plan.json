@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "before_sha256": "TODO: actual base DOCX SHA-256 from --describe",
+  "targets": [
+    {
+      "path": [],
+      "node_sha256": "TODO: exact selected paragraph/run hash from --describe",
+      "properties": {
+        "w:sz": {
+          "w:val": "TODO: intended half-point size"
+        }
+      }
+    }
+  ]
+}

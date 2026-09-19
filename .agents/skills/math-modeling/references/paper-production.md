@@ -96,6 +96,51 @@ For 2026 CUMCM, the verified snapshot says the main text after the abstract is l
 - Put long paths, filenames, and commands in short list items or code blocks rather than justified prose, which can create stretched spacing.
 - Avoid floating images unless the official template requires them.
 
+### Local Formatting Change Guard
+
+Before a targeted DOCX size/bold/alignment repair, preserve the selected base and save
+a case-local plan copied from [docx-local-format-plan.json](../templates/docx-local-format-plan.json).
+Use the read-only inspector to obtain base-bound addresses:
+
+```powershell
+python scripts/audit_docx_local_format.py --before <base.docx> --describe
+python scripts/audit_docx_local_format.py --before <base.docx> --after <candidate.docx> --plan <plan.json>
+```
+
+The inspector is not an allowlist: choose only the intended paragraph/run. The plan
+binds `before_sha256`, each target's `node_sha256` and zero-based child-index `path`
+from `w:body`, plus exact expected property attributes. Addresses are valid only for
+that base; never reuse an address after another edit or regenerate hashes merely to
+accept unexplained drift. Store the plan before editing, outside the protected base.
+
+Supported direct properties are `w:sz`, `w:szCs`, `w:b`, `w:bCs` on a text or OMML
+run, and `w:jc`, `w:spacing`, `w:ind`, `w:keepNext`, `w:keepLines` on a paragraph.
+Sizes are OOXML half-points: `{"w:sz":{"w:val":"24"}}` means 12 pt. Values are
+attribute maps; `null` requires removal. The tool checks exact expected attributes,
+not whether a proposed font size or line spacing is visually appropriate.
+
+All other element content and properties in the main document must remain unchanged.
+Other ZIP members are byte-protected: shared styles, themes, numbering, relationships,
+media, headers, footers and metadata are not silently exempted. Formula text/structure,
+equation numbers, symbol-table text and section geometry cannot be changed under a
+format-only plan. Native math run size may change only when that run is explicitly
+selected. Tables are not a blanket formatting target; select affected cell runs.
+
+A failure blocks promotion as a **local-format-only candidate**. Inspect the located
+part or scope error, repair or rebase intentionally; do not broaden the allowlist to
+hide unexpected changes. Word saves that rewrite metadata or runs can conservatively
+fail this guard without proving scientific corruption. Shared-style changes, text
+rewrites, inserted/deleted objects and unsupported repairs require a separately scoped
+review, not bypass flags. The guard is deliberately narrow and is not a new finalizer
+gate automatically invoked for every historical case.
+
+Run the guard before exporting/promoting the candidate. A pass means only permitted
+OOXML changes; it does not prove mathematical correctness, actual rendered font size,
+or readability. Changed DOCX bytes set `requires_export_and_page_review=true` and
+`visual_review_passed=false`. Re-export and perform the existing final full-page review,
+reconcile current source/DOCX/PDF hashes and rebuild affected package bindings. Do not
+reuse the prior PDF's visual PASS. Changed pagination can affect every following page.
+
 ## 5. Render Mathematics Deliberately
 
 - Render display equations with a math engine or native equation objects. For fractions, roots, integrals, sums, matrices, piecewise definitions, or nested subscripts/superscripts, use native LaTeX mathematics, Word OMML, or another verified structured-math path. A centered run in Cambria Math or another math font is still plain text and is only an emergency degradation mode; it must not be described as professional equation rendering.

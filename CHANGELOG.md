@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a read-only, hash-bound local DOCX formatting guard with exact-property scope, protected formulas/shared styles, and required re-export/page review. Fifteen focused tests pass in the public repository.
+
 - 创建公开版仓库骨架。
 - 尚未迁移经过审查的 Skill、脚本、模板和示例。
 

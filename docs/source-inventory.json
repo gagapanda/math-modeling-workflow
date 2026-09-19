@@ -15,7 +15,7 @@
   "files": [
     {
       "path": ".agents/skills/math-modeling/SKILL.md",
-      "sha256": "d12982ecbfd3e817a7a4b57b1dd37ff9e3a2703ba288bc41095fb88d7eea2dd0",
+      "sha256": "6e5c2f303c6b3afc46552b79263464eb54eacf5509d286279fede0505d7f135a",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / SKILL.md; C1 public export adaptation",
       "license_expression": "MIT",
@@ -600,7 +600,7 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/paper-production.md",
-      "sha256": "7e389346ac8dc05352287e92402ad07e9cde927958f17f491a8457692da4a5a8",
+      "sha256": "483043cad48c49e82c89928944b9de878e83003cf03fdc1a3b1d033831aa487d",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / references/paper-production.md",
       "license_expression": "MIT",
@@ -2694,7 +2694,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "7c39a924e03af60933a78133de9bbbca8162d98e8b8fc61bcbdb63351e589340",
+      "sha256": "b3104e20ac806cfbd40ba1fdbe11f61bdad4b20b971ad4a3944a2507f527dc22",
       "source_class": "project_candidate",
       "source_reference": "B: public scaffold / CHANGELOG.md",
       "license_expression": "MIT",
@@ -2939,6 +2939,42 @@
       "authorization_status": "confirmed",
       "pre_C2_sha256": "0db85523e0c3a79383b2590cfc1578fecd7ae79804b087b125df465cc0b51068",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded new_public_export_candidate provenance. Does not relicense third-party dependencies."
+    },
+    {
+      "path": ".agents/skills/math-modeling/scripts/audit_docx_local_format.py",
+      "source_class": "project_authored_workflow",
+      "source_reference": "2026-09-19 reviewed generic local DOCX formatting guard; standard-library implementation and synthetic tests",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "docs/release-sources.md: user-authorized MIT project-source distribution; current user requests GitHub publication.",
+      "original_source_sha256": "cb1b168c34ce2ab9c4225f25faf9732ed8f2c8bca15854d3656afeaeb49387f4",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "cb1b168c34ce2ab9c4225f25faf9732ed8f2c8bca15854d3656afeaeb49387f4",
+      "sha256": "cb1b168c34ce2ab9c4225f25faf9732ed8f2c8bca15854d3656afeaeb49387f4"
+    },
+    {
+      "path": ".agents/skills/math-modeling/templates/docx-local-format-plan.json",
+      "source_class": "project_authored_workflow",
+      "source_reference": "2026-09-19 reviewed generic local DOCX formatting guard; standard-library implementation and synthetic tests",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "docs/release-sources.md: user-authorized MIT project-source distribution; current user requests GitHub publication.",
+      "original_source_sha256": "2e6d3dcb4eb6a551bc3db600d0c6200ba6f9f5124a03566a3c5de68a47493008",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "2e6d3dcb4eb6a551bc3db600d0c6200ba6f9f5124a03566a3c5de68a47493008",
+      "sha256": "2e6d3dcb4eb6a551bc3db600d0c6200ba6f9f5124a03566a3c5de68a47493008"
+    },
+    {
+      "path": ".agents/skills/math-modeling/tests/test_docx_local_format.py",
+      "source_class": "project_authored_workflow",
+      "source_reference": "2026-09-19 reviewed generic local DOCX formatting guard; standard-library implementation and synthetic tests",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "docs/release-sources.md: user-authorized MIT project-source distribution; current user requests GitHub publication.",
+      "original_source_sha256": "106f95928e75f1b32fe4d1fdcb3e4d6e774a1777922e5b9122d5447eef72e28f",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "106f95928e75f1b32fe4d1fdcb3e4d6e774a1777922e5b9122d5447eef72e28f",
+      "sha256": "106f95928e75f1b32fe4d1fdcb3e4d6e774a1777922e5b9122d5447eef72e28f"
     }
   ],
   "origin_confirmations": [
