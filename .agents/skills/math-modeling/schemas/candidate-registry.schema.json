@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/candidate-registry.schema.json",
+  "title": "Modeling candidate registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "revision", "updated_at", "candidates"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "revision": {"type": "integer", "minimum": 0},
+    "updated_at": {"type": ["string", "null"]},
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "path",
+          "artifact_type",
+          "sha256",
+          "bytes",
+          "file_count",
+          "status",
+          "registered_at",
+          "source",
+          "selected_at",
+          "superseded_at",
+          "superseded_by",
+          "reason"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^candidate-(result|paper|support)-[0-9a-f]{12}$"},
+          "kind": {"type": "string", "enum": ["result", "paper", "support"]},
+          "path": {"type": "string", "minLength": 1},
+          "artifact_type": {"type": "string", "enum": ["file", "directory"]},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "file_count": {"type": "integer", "minimum": 1},
+          "status": {"type": "string", "enum": ["candidate", "current", "superseded", "retained"]},
+          "registered_at": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1},
+          "selected_at": {"type": ["string", "null"]},
+          "superseded_at": {"type": ["string", "null"]},
+          "superseded_by": {"type": ["string", "null"]},
+          "reason": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

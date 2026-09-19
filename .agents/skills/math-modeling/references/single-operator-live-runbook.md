@@ -2,7 +2,7 @@
 
 Use this reference when one responsible human operates Codex Desktop and maintains the only canonical competition workspace. It is a compact execution layer over the main modeling, validation, paper, compliance, and packaging references; it does not replace current official rules or the full competition protocol.
 
-The runbook incorporates only reusable controls supported by the D4, stage F, and G4 rehearsals. Those rehearsals are calibration evidence, not a promise that every problem can be finished in the same elapsed time.
+The runbook incorporates only reusable controls supported by the D4, stage F, G4, and 2026 CUMCM A drying-case evidence. Those cases are calibration evidence, not a promise that every problem can be finished in the same elapsed time.
 
 ## Authority And Workspace Ownership
 
@@ -22,6 +22,22 @@ Before executing or resuming an existing case:
 4. Interpret a machine gate from its complete status tuple: `required`, `scope`, `status`, `passed`, `errors`, and bound evidence. `required=false` with `passed=true` means `NOT_RUN_OR_NOT_REQUIRED`; it is not proof that the gate executed and passed.
 5. Verify that an alleged F1 manifest directly binds the current result register and affected model/validation/figure evidence. A delivery freeze or package checklist is not automatically an F1 result freeze.
 6. Before M7 precheck, compare the declared core-script set with the clean-extraction replay set. A successful subset smoke test proves only that subset.
+
+### Authority Heartbeat
+
+Run `python scripts/audit_authority_heartbeat.py --case-dir <case-dir> --json` before and after the manual update below. The command is passive and read-only: it checks the structured authority table, selected case-relative paths, common active control files, and standard candidate directories. Errors block authority-dependent claims; warnings identify metadata or control markers that need human review. The command never chooses the newest artifact, marks a candidate superseded, or signs F1, M6, M7, or F2.
+
+Use `python scripts/manage_candidates.py register|select|supersede|list` for the machine-readable `authority/candidate-registry.json`. Registering binds a file or deterministic directory-tree fingerprint. Selecting a replacement requires `--supersede-current --reason`; no action deletes artifacts, updates `CURRENT-STATE.md`, or passes a gate. Keep at most one current candidate in each independent kind: result, paper, and support.
+
+Run an authority heartbeat whenever a subproblem is accepted, a paper candidate is exported, a support archive is rebuilt, or work resumes after an interruption:
+
+1. update the first status line and selected-artifact block in `CURRENT-STATE.md` in the same change as the authority transition;
+2. name exactly one current numerical source, one current paper candidate, and one current support candidate, or explicitly write `NONE`;
+3. mark every displaced candidate as superseded with its replacement path instead of relying on revision numbers or modification times;
+4. scan active controls for `TODO`, `pending`, stale paths, and a headline/body disagreement in the state pointer;
+5. if the selected artifacts, pointer, and gate records disagree, record `SUBMISSION_AUTHORITY_DRIFT` and stop formal paper/package promotion until reconciled.
+
+The heartbeat is a lightweight adoption control, not a new approval gate. It prevents a technically mature candidate tree from outrunning the formal authority chain.
 
 The Markdown pointer is intentionally lightweight. Do not infer a machine-enforced transition or human approval from its text, and do not add a parallel pointer unless the existing authority record is explicitly superseded.
 
@@ -164,6 +180,8 @@ A legacy rules/AI audit is explicitly `rules_and_ai_technical_only`, not complet
 ## Paper And Packaging Order
 
 Paper structure, symbols, methods, and clearly marked placeholders may be drafted before F1. Formal numbers, abstract conclusions, and final claims enter the authoritative paper only from the current F1 sources.
+
+Create the support-package skeleton when the first executable model and AI-use record exist, not at final packaging time. If current rules require `AI工具使用详情.pdf`, keep a case-local draft generated from the chronological record and make the exact final PDF a required allowlist member before any archive can be selected for M7. An archive that deliberately excludes required compliance material is a `TECHNICAL_ONLY_SUPPORT_PACKAGE`; it may be used for replay but must not be named, copied, or reviewed as a submission candidate. Missing or stale AI detail is `AI_DETAILS_NOT_BOUND` and blocks package selection even when CRC, hashes, workbooks, and code replay pass.
 
 Before claiming `M7-PRECHECK-PASS`, require at least:
 

@@ -48,6 +48,7 @@ DIRECTORIES = (
     "notebooks",
     "figures",
     "results",
+    "authority",
     "paper",
     "ai",
     "compliance",
@@ -56,6 +57,14 @@ DIRECTORIES = (
 )
 
 FILES = {
+    "authority/candidate-registry.json": (
+        "{\n"
+        '  "schema_version": 1,\n'
+        '  "revision": 0,\n'
+        '  "updated_at": null,\n'
+        '  "candidates": []\n'
+        "}\n"
+    ),
     "problem/statement.md": "# Problem Statement\n\nTODO: Preserve or link the official statement and attachments.\n",
     "problem/requirements.md": (
         "# Requirements\n\n"
@@ -251,7 +260,7 @@ FILES = {
         "# Paper Title\n\n"
         "**NON_AUTHORITATIVE REVIEW DRAFT**\n\n"
         "## Abstract\n\n"
-        "After result freeze, state the problem, methods used for each subproblem, reproducible headline results, validation evidence, conclusions, and keywords. The abstract is a compressed answer rather than a derivation section: do not introduce numbers or claims absent from the frozen body.\n\n"
+        "After result freeze, complete `paper/abstract-evidence.md`, then state the problem, the key method structure for each subproblem, reproducible headline results, the strongest validation or failure evidence, indispensable claim boundaries, and keywords. The abstract is a compressed answer rather than a derivation section: do not introduce numbers or claims absent from the frozen body, list methods without their purpose, or hide units, validation objects, non-causal, out-of-domain, non-measured, or non-guarantee boundaries merely to fit one page.\n\n"
         "## Problem Restatement\n\n"
         "State every required output operationally and show how the subproblems depend on one another.\n\n"
         "## Problem Analysis And Technical Route\n\n"
@@ -292,6 +301,7 @@ FILES = {
         "| Required outputs answered | TODO | pending |\n"
         "| Headline values reconciled | TODO | pending |\n"
         "| Results frozen before abstract, formal conclusion, and final paper rebuild | TODO | pending |\n"
+        "| Abstract evidence sheet completed; every subproblem binds method, result ID/display value, validation, claim type, and boundary | TODO | pending |\n"
         "| Every substantive subproblem opens with a direct answer carrying units and conditions | TODO | pending |\n"
         "| Symbols and units table complete and visually checked in final DOCX/PDF | TODO | pending |\n"
         "| Analysis units, effective denominators, exclusion/missingness reasons, and validation units reconciled where sample flow changes materially | TODO | pending |\n"
@@ -558,6 +568,13 @@ def main() -> int:
             TEMPLATES / "paper-closeout-review.json"
         ).read_text(encoding="utf-8")
         validate_destination(case_dir / "paper/closeout-review.json")
+        for destination, template in (
+            ("paper/integration-plan.json", "paper-integration-plan.json"),
+            ("paper/chapter-integration.md", "paper-chapter-integration.md"),
+            ("paper/abstract-evidence.md", "paper-abstract-evidence.md"),
+        ):
+            validate_destination(case_dir / destination)
+            scaffold_files[destination] = (TEMPLATES / template).read_text(encoding="utf-8")
 
     created = []
     preserved = []
@@ -587,6 +604,7 @@ def main() -> int:
         json.dumps(
             {
                 "paper_closeout_required": args.profile != "explore",
+                "paper_integration_required": args.profile != "explore",
                 "case_name": case_name,
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "workflow": "math-modeling",
@@ -614,8 +632,6 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
 
 
 

@@ -29,6 +29,8 @@ For a full practice or submission paper, plan the main text around the evidence 
 - direct conclusions for every requested output, followed by strengths, limitations, and extensions;
 - references, the required AI-use declaration, support-file inventory, and complete runnable source code.
 
+For the abstract, use [paper-abstract-writing.md](paper-abstract-writing.md) and complete the case-local `paper/abstract-evidence.md`. Establish the per-subproblem task, key method structure, frozen result ID, display precision, strongest validation or failure evidence, claim type, and indispensable boundary before writing final prose. An abstract-only reconstruction review checks whether a reader can recover the method-answer-validation-boundary chain; it is a structured reading aid, not an independent judge or approval gate.
+
 Within each subproblem section, use the shortest defensible chain `problem transformation -> definitions and assumptions -> core derivation -> transparent baseline -> main model or justified improvement -> algorithm -> result -> comparison or diagnostic -> interpretation -> validation and boundary -> direct answer`. A step may be omitted when the problem structure genuinely makes it inapplicable, but do not silently replace a missing derivation, baseline, or validation with a method name. If two subproblems share a model, state the reusable core once and still show the changed variables, constraints, data, results, and validation for each question. For a mechanism- or geometry-heavy subproblem, instantiate that chain as `real object -> coordinate/time variable and local symbols -> geometry or physical mapping -> state closure -> event/constraint logic -> numerical update order -> mechanism evidence -> result -> convergence/definition boundary`. This is a closure check, not a demand that every item become a separate subsection.
 
 For a full practice or submission paper, include a standalone **Symbols and Units** subsection before the substantive model sections. Its table should cover repeatedly used global indices, inputs, decision variables, state variables, parameters, and evaluation metrics, with meaning plus unit or domain; add index ranges or information timing when they affect interpretation. Define local one-use intermediate quantities at first use instead of bloating the global table. Check dimensional closure and keep every later symbol consistent with the table.
@@ -234,7 +236,91 @@ The default practice and submission scaffolds create this adapter and Markdown s
 
 ### Optional LaTeX adapter (not bundled)
 
-The downloaded class, fonts and derived template are excluded from this edition pending source review. Choose a separately reviewed template permitted for your contest. Recheck formulas, symbol units, visible numbering, anonymity and every final PDF page. Neither a source template nor compilation success establishes compliance.
+The downloaded class, fonts and derived private template are excluded from this edition. Choose a separately reviewed template permitted for the current contest. Recheck formulas, symbol units, visible numbering, anonymity and every final PDF page. Neither a source template nor compilation success establishes compliance.
+
+## 8. Reconcile And Package
+
+- Verify every headline value in the abstract, results, conclusion, figures, tables, and official result templates.
+- Confirm PDF page count equals the number of rendered page images.
+- Open final files from the submission package, not from a build cache.
+- Remove reproducible temporary renders and formula intermediates after successful verification.
+- Record unrun checks and residual risks in `paper/qa-register.md`.
+
+
+## Paper quality-gate scope and test runner fallback
+
+The declaration-driven paper-quality audit checks the Markdown abstract and each declared subproblem within their own heading ranges. It also checks explicitly labelled body result IDs, local figure references against `figure_claims`, and DOCX/PDF identity metadata against allowed anonymous values.
+
+For body result-ID references, use an explicit `结果 ID` or `result_id` label. The parser accepts dot-form, hyphen-form, underscore-form, and mixed dot/hyphen/underscore identifiers; ordinary variable names, filenames, and natural-language hyphenated text are not treated as result-ID references. An extracted ID that is absent from `results/result-register.json` is reported in `unknown` and fails the audit. The current gate validates references that are present but does not independently require at least one explicit result-ID reference in every paper.
+
+Visual-review PDF/page hashes remain a finalization-only gate owned by `finalize_case.py`; they are intentionally not duplicated in `audit_paper_quality_gates.py`. A visual-review hash mismatch must still keep `ready_for_submission=false`.
+
+`requirements-modeling.txt` does not declare pytest. If the selected project virtual environment does not provide pytest, run the two quality-gate files directly with Python/unittest. Record that as a fallback test-runner result, never as a pytest pass.
+
+## Paper competitiveness review (reference-only)
+
+This section is a diagnostic reference for reviewing mathematical-modeling paper competitiveness. It is not a submission hard gate, does not change `ready_for_submission`, and does not predict official awards.
+
+Use a two-layer review:
+
+1. **Rapid review**: inspect the title, abstract/abstract structure, conclusion-oriented statements, and the recorded three-minute initial review. Use it to assess problem coverage, main route, memorable result, visible innovation, and obvious risks. Do not use rapid review alone to confirm code correctness, formula–implementation consistency, numerical reconciliation, or external generalization.
+2. **Full evidence review**: inspect the subproblem body, definitions, formulas, data conventions, validation, baseline/ablation, figures and claim binding, code/result records when available, and final delivery evidence. Record which scores changed and whether the change came from new evidence or reviewer uncertainty.
+
+Use the following six diagnostic dimensions; the sum is a review score, not an award prediction:
+
+```text
+problem_coverage
+assumptions_boundaries
+correctness_validation
+innovation
+result_credibility
+expression_readability
+```
+
+For each review, also record:
+
+```text
+mechanism_or_data_definition
+decision_linkage
+validation_target
+baseline_or_ablation
+claim_boundary
+visual_claim_binding
+```
+
+Separate evidence states explicitly:
+
+```text
+automated
+agent_review
+unverified
+```
+
+Page visibility, full visual review, and code–result reconciliation are different evidence levels and must not be substituted for one another.
+
+For each core claim, record a claim–evidence–boundary entry with:
+
+```text
+claim_id
+claim_text
+claim_type
+evidence_refs
+boundary
+verification_status
+risk
+```
+
+Use these claim types conservatively:
+
+```text
+descriptive
+associational
+predictive
+conditional_scenario
+causal
+```
+
+Do not write an observational association as causation, a conditional prediction as a real-world guarantee, an observational before/after difference as an intervention effect, or a mature method combination as algorithmic originality without additional identification evidence. Figures must be bound to the specific claim they support, including source, units, legend, body location, and reconciliation status.
 
 
 ### Full-review consistency and validation checks
@@ -268,3 +354,7 @@ When storing an external review sample, mark it explicitly as diagnostic and non
 
 
 
+
+## 章节接入后的结构复核
+
+按 [paper-closeout.md](paper-closeout.md) 的全文接入检查，将已核验候选章与全文符号、下游引用和源码附录衔接后再导出。使用 [paper-chapter-integration.md](../templates/paper-chapter-integration.md) 记录逐问重建；实际参数代入须区分最终拟合参数与验证折内参数，换求解器的一致性不等于独立验证。已有 Word/TeX 构建入口不变，不复制历史题专用构建器覆盖通用入口。显示公式数和编号从本稿动态提取，图像核对正文实际嵌入关系，源码附录对照真实文件；这些机器检查不取代完整符号说明、行内公式阅读和最终 PDF 全页审查。图形依赖缺失时先核对既有解释器，不为排版重装或重定向环境。

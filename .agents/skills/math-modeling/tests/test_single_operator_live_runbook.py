@@ -39,9 +39,33 @@ class SingleOperatorLiveRunbookTests(unittest.TestCase):
             "actual responsible human operator",
             "verified accepted manifest",
             "candidate provenance",
+            "Authority Heartbeat",
+            "SUBMISSION_AUTHORITY_DRIFT",
+            "TECHNICAL_ONLY_SUPPORT_PACKAGE",
+            "AI_DETAILS_NOT_BOUND",
         ):
             with self.subTest(contract=contract):
                 self.assertIn(contract, runbook)
+
+        harvest = (
+            SKILL_ROOT / "references" / "post-contest-harvest.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("post-contest-harvest.md", skill)
+        for marker in (
+            "observed facts",
+            "human recollection",
+            "inferred causes",
+            "adopted controls",
+            "NO_RETROACTIVE_GATE_CLAIM",
+        ):
+            with self.subTest(harvest_marker=marker):
+                self.assertIn(marker, harvest)
+
+        checklist = (
+            SKILL_ROOT / "references" / "submission-checklist.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("TECHNICAL_ONLY_SUPPORT_PACKAGE", checklist)
+        self.assertIn("AI-detail draft", checklist)
 
     def test_h4_data_lineage_and_lead_time_contracts_are_routed(self) -> None:
         skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")

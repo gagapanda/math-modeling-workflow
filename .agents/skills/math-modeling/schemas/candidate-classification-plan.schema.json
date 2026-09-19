@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codex.local/math-modeling/candidate-classification-plan.schema.json",
+  "title": "Candidate classification import plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "recorded_at", "source", "entries"],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "recorded_at": {"type": "string", "minLength": 1},
+    "source": {"type": "string", "minLength": 1},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "path", "status", "reason", "superseded_by"],
+        "properties": {
+          "kind": {"type": "string", "enum": ["result", "paper", "support"]},
+          "path": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "enum": ["candidate", "current", "superseded", "retained"]},
+          "reason": {"type": ["string", "null"]},
+          "superseded_by": {"type": ["string", "null"]}
+        }
+      }
+    }
+  }
+}

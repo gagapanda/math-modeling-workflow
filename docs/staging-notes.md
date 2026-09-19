@@ -1,10 +1,14 @@
-# Public repository staging notes
+# Public Release Notes
 
-此目录用于公开版整理，不是私人工作区的镜像。
+This repository is the public, source-only distribution. It is not a mirror of the private competition workspace.
 
-迁移规则：
+For every update:
 
-- 只复制已通过公开范围审查的通用内容；
-- 不复制课程资料、优秀论文、原始竞赛附件和内部审计证据；
-- 迁移后必须执行路径、隐私、凭据、版权和可复现性检查；
-- 正式推送 GitHub 前，先使用私有仓库预发布。
+- synchronize only reviewed general-purpose source files;
+- retain public-specific privacy and missing-component adaptations;
+- exclude private cases, evidence, course material, contest attachments, third-party templates and fonts, environments, caches and generated documents;
+- refresh `docs/source-inventory.json` after the final edit;
+- require the source inventory gate, Python/JSON structural checks and public regression suite to pass;
+- stage the exact inventory path set and inspect the staged diff before committing.
+
+The private controlled CUMCM LaTeX asset is intentionally absent because its downloaded class and fonts do not have a verified redistribution grant. Its absence is a public-edition boundary, not a successful template test.

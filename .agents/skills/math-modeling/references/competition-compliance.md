@@ -1,6 +1,6 @@
-# Public-edition verification boundary
+# Public-Edition Verification Boundary
 
-The dated source descriptions below are historical guidance, not current official verification. No official document or current-rule audit is supplied by this migration. Verify the actual contest requirements before use.
+The dated source descriptions below are historical guidance, not current official verification. No official document or current-rule audit is supplied by this repository. Verify the actual contest requirements before use.
 
 # Competition Compliance
 
@@ -21,7 +21,7 @@ Verified on 2026-08-10 from the official CUMCM site:
 
 Key paper-format requirements in the 2026 revision include an official commitment page, numbering page, one-page abstract section, no table of contents,正文 no longer than 30 pages, and appendices containing the complete runnable source code and support-file list. Confirm details against the official documents and the team's contest area.
 
-For the controlled LaTeX path, `templates/cumcm-2026-latex/paper.tex` is the electronic anonymous entrypoint and deliberately omits the two identity pages. `paper-print.tex` is only the paper-print wrapper. The required document order is `abstract -> main text -> AI declaration -> references -> appendices`; changing that order or enabling a table of contents is a compliance failure. A successful compilation does not establish page-limit, anonymity, AI-disclosure, or visual-layout compliance.
+The private controlled LaTeX template and fonts are not distributed in this public edition. For any separately reviewed template, keep the required document order `abstract -> main text -> AI declaration -> references -> appendices`, do not enable a table of contents, and verify the current official format independently. A successful compilation does not establish page-limit, anonymity, AI-disclosure, or visual-layout compliance.
 
 ### AI Use
 

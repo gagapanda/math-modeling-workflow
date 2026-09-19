@@ -1,6 +1,6 @@
 # Failure Prevention And Recovery
 
-This reference records failures found during the 2025 E rehearsal and the controls that prevent recurrence in future cases.
+This reference records evidence-backed failures found during rehearsals and live-case work, plus the controls that prevent recurrence in future cases.
 
 ## Incident Register
 
@@ -17,6 +17,9 @@ This reference records failures found during the 2025 E rehearsal and the contro
 | Patch command returned Windows `Access is denied` despite writable ACL | Temporary replacement path used by the patch wrapper was blocked while direct file access still worked | Record the failure; use the project-approved direct write fallback only after checking ACL, file attributes, and ownership; never weaken protection globally | Check `Get-Acl`, `Attributes`, and target path; make one bounded fallback edit and verify the diff |
 | Codex stream disconnected, concurrency limit, or transient `502` interrupted a long turn | The service/session transport failed; this is not evidence that the case pipeline failed | Keep the project rule of one serial main Agent, inspect persisted reports and running processes, and resume from the last verified gate; never spawn retry Agents | Reopen the same task, read `pipeline-report.json` and the latest failure event, then rerun only the failed gate |
 | A Windows `.cmd` wrapper could not resolve an internal executable path | The wrapper depended on an inherited `PATH`/working-directory assumption | Preflight discovers concrete executables and probes them before export; use the resolved executable path in recovery commands | Run `preflight.py --json`, use the reported concrete backend path, and do not replace the project environment blindly |
+| A passive pipeline plan failed under the default Windows `python` because NumPy was absent while the project `.venv` worked | The operator resumed with an interpreter selected by the shell rather than the case environment | Record the concrete interpreter at case start and resume; run the import smoke before planning or executing the pipeline | Switch to the recorded project interpreter, rerun the same passive plan, and do not install into or rewrite the unrelated default interpreter |
+| A case accumulated many numbered paper candidates while the authority pointer headline and active control files still described an earlier question | Candidate production advanced without an authority heartbeat, so technical maturity and formal state diverged | Run the `Authority Heartbeat` from `single-operator-live-runbook.md` after accepted subproblems, exports, package rebuilds, and resumes; stop on `SUBMISSION_AUTHORITY_DRIFT` | Select exactly one current numerical, paper, and support artifact; mark displaced candidates superseded; reconcile pointer and active controls before promotion |
+| A technically verified support ZIP explicitly excluded the rule-required AI detail PDF | Replay verification and submission compliance were treated as separate late tasks, leaving no time-safe admissible package | Build the AI detail and support skeleton early; label omission-bearing archives `TECHNICAL_ONLY_SUPPORT_PACKAGE`; block M7 selection with `AI_DETAILS_NOT_BOUND` | Generate and review the required PDF from the chronological record, add it to the allowlist, rebuild, rebind hashes, and repeat exact-archive checks |
 
 Every failed `run_pipeline.py` attempt now appends a structured event to the case-local
 `rehearsal/failure-events.jsonl`. A standalone preflight can do the same when invoked

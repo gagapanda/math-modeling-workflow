@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "input_sha256": "e874ef8f5c22736fed664e23e6d75904959df3943b6a61b1e5120174b5e9fd61",
+  "row_id_columns": ["combination_id"],
+  "rules": [
+    {
+      "id": "trim_combination_description",
+      "operation": "trim_whitespace",
+      "columns": ["combination_description"],
+      "reason": "A13, A14, and B2 descriptions contain export padding outside the formulation text",
+      "expected_changes": 15
+    }
+  ]
+}

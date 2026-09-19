@@ -38,5 +38,11 @@
       "findings": "",
       "evidence": []
     }
+  },
+  "integration": {
+    "plan": {
+      "path": "paper/integration-plan.json",
+      "sha256": ""
+    }
   }
 }
