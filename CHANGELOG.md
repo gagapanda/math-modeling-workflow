@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- 2026-09-22 validation: public suite 467 tests, OK with 5 skipped; private full suite 497 tests, OK with 2 skipped and 14 historical read-only checks. Public historical cases are intentionally excluded. Source inventory passed. Synthetic Word export was checked locally; public Word automation and universal rendering compatibility are not claimed.
+
+- Add explicit per-segment DOCX style-donor helpers and compatibility namespace checks, with eight synthetic regression tests. Word compatibility still requires an actual available Word export; the public repository does not bundle private Word automation.
+- Clarify model admissibility versus preference, paired-difference versus marginal lower-CVaR, and evaluation-set roles in existing model-selection and writing guidance.
+
 - Add a read-only, hash-bound local DOCX formatting guard with exact-property scope, protected formulas/shared styles, and required re-export/page review. Fifteen focused tests pass in the public repository.
 
 - 增加候选谱系登记、选择、替代、保留及赛后台账导入。

@@ -27,7 +27,7 @@
     },
     {
       "path": ".agents/skills/math-modeling/SKILL.md",
-      "sha256": "7ea6753f5dd797a7255419843220d1774a6428f4e87ad33ab5c20e7321e1d546",
+      "sha256": "0563b17499b460ed8a8922191099faa2271b270eb32aeeca3d088a1ed2482e7a",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / SKILL.md; C1 public export adaptation",
       "license_expression": "MIT",
@@ -559,7 +559,7 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/model-routing.md",
-      "sha256": "abb5485b36a5cf03991f862fca0be2e37da5e087c94a480f5b0dcff43acff527",
+      "sha256": "64f00e5fe859ccddd9a88ee1881a76dc0b13ef53be2c053c09d75610d29920ff",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / references/model-routing.md",
       "license_expression": "MIT",
@@ -584,7 +584,7 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/paper-claim-figure-innovation-card.md",
-      "sha256": "ffb512f3fc82c84bbc4bf45e6db6e64a2e91b051bc021e091b482f43555a2667",
+      "sha256": "eb68ad66fec8e84ec8eb8332c2b655958b36c5debd9b57f5525d01a9ce76fb4d",
       "source_class": "migrated_workflow_candidate",
       "source_reference": "C: reviewed generic workflow / references/paper-claim-figure-innovation-card.md",
       "license_expression": "MIT",
@@ -636,7 +636,7 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/paper-narrative-rewrite.md",
-      "sha256": "b81bf14bcaa870d15e5840b8e4ba02224e3290a2988e652b974a57daa35411d4",
+      "sha256": "781cb604f4f152c6bc3964b7e73e12dcd7ef7bb314f1f3de9695f47b9cff7afc",
       "source_class": "project_source_2026-09-15",
       "source_reference": "Current workflow source reviewed for the 2026-09-15 public update",
       "license_expression": "MIT",
@@ -2909,7 +2909,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "daa1be44801cc551170165e50089205d979548539aba4111ffe242b9ed41c360",
+      "sha256": "9c3ee09ff28c371d628a1e7654bc0de484f49b7ef0d23beffc1d5e443871273a",
       "source_class": "project_candidate",
       "source_reference": "B: public scaffold / CHANGELOG.md",
       "license_expression": "MIT",
@@ -3202,6 +3202,30 @@
       "migration_decision": "MIGRATED_UNCHANGED",
       "migration_destination_sha256": "106f95928e75f1b32fe4d1fdcb3e4d6e774a1777922e5b9122d5447eef72e28f",
       "sha256": "106f95928e75f1b32fe4d1fdcb3e4d6e774a1777922e5b9122d5447eef72e28f"
+    },
+    {
+      "path": ".agents/skills/math-modeling/scripts/docx_rewrite_safety.py",
+      "source_class": "project_authored_workflow",
+      "source_reference": "2026-09-22 reviewed generic DOCX rewrite safety helpers and synthetic tests",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "User-authorized MIT project source distribution and current request to publish this reviewed batch; no third-party binaries or private evidence included.",
+      "original_source_sha256": "35526baf8a7065943f53a6c080b451dcc6b86495c72f84248eb8690c2e999af5",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "35526baf8a7065943f53a6c080b451dcc6b86495c72f84248eb8690c2e999af5",
+      "sha256": "35526baf8a7065943f53a6c080b451dcc6b86495c72f84248eb8690c2e999af5"
+    },
+    {
+      "path": ".agents/skills/math-modeling/tests/test_docx_rewrite_safety.py",
+      "source_class": "project_authored_workflow",
+      "source_reference": "2026-09-22 reviewed generic DOCX rewrite safety helpers and synthetic tests",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "User-authorized MIT project source distribution and current request to publish this reviewed batch; no third-party binaries or private evidence included.",
+      "original_source_sha256": "c0afd0b9e358f43400791ee0638ec3bbdfdc73d4f16cb4cf769d3d8060526f15",
+      "migration_decision": "MIGRATED_UNCHANGED",
+      "migration_destination_sha256": "c0afd0b9e358f43400791ee0638ec3bbdfdc73d4f16cb4cf769d3d8060526f15",
+      "sha256": "c0afd0b9e358f43400791ee0638ec3bbdfdc73d4f16cb4cf769d3d8060526f15"
     }
   ],
   "origin_confirmations": [

@@ -31,6 +31,7 @@ Use [integration-routing.md](integration-routing.md) for the beginner-facing fir
 8. Treat sensitivity analysis as a model check, not a decorative final section.
 9. Bind every recommended candidate to an explicit next action: data audit, model-definition register, baseline execution, or paper review.
 10. Keep continuous prediction and coefficient inference separate: prediction needs an untouched evaluation split; OLS inference needs a declared sampling/covariance structure and diagnostics.
+11. Separate admissibility from preference: conservation, feasibility and solver convergence can admit multiple candidates; they do not alone rank physical validity, predictive quality or decision utility. State whether selection rests on a structural convention, matched performance comparison or independent observations. Apply the metric-identity and evaluation-role checks in `paper-claim-figure-innovation-card.md` before promoting a superiority claim.
 
 ## Lead-Time Startup And Information Availability
 
