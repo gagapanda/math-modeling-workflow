@@ -27,14 +27,14 @@
     },
     {
       "path": ".agents/skills/math-modeling/SKILL.md",
-      "sha256": "0563b17499b460ed8a8922191099faa2271b270eb32aeeca3d088a1ed2482e7a",
+      "sha256": "7ada370c793e599df8c14a75402a59b33a79f834737751ebf651f21f3d066231",
       "source_class": "migrated_workflow_candidate",
-      "source_reference": "C: reviewed generic workflow / SKILL.md; C1 public export adaptation",
+      "source_reference": "C: reviewed generic workflow / SKILL.md; C1 public export adaptation; 2026-09-22 reviewed task-first entry documentation update",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
-      "original_source_sha256": "5b2aa0831c66005387187926d5629ec8b4ba05beb4b552b7a27a1680d13fa4b4",
+      "original_source_sha256": "9e848686594a2064adebc9334a4c55c72f5a31f262a645b0319551e49bad7736",
       "migration_decision": "MIGRATED_ADAPTED",
-      "migration_destination_sha256": "80eb4cf5cd7513cf49ed5f54dc544cb81594e0aeecfca3271c8795dea516e4a8",
+      "migration_destination_sha256": "7ada370c793e599df8c14a75402a59b33a79f834737751ebf651f21f3d066231",
       "initial_origin_confirmation_id": "initial-skill-origin-user-confirmation",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded migrated_workflow_candidate provenance. Does not relicense third-party dependencies."
     },
@@ -2909,12 +2909,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "9c3ee09ff28c371d628a1e7654bc0de484f49b7ef0d23beffc1d5e443871273a",
+      "sha256": "432ca901252e2b4c057cfae5d6392a3bca5ffd106b9b67932b4b233ef29161f7",
       "source_class": "project_candidate",
-      "source_reference": "B: public scaffold / CHANGELOG.md",
+      "source_reference": "B: public scaffold / CHANGELOG.md; 2026-09-22 reviewed task-first entry documentation update",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
-      "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded project_candidate provenance. Does not relicense third-party dependencies."
+      "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded project_candidate provenance. Does not relicense third-party dependencies.",
+      "migration_destination_sha256": "432ca901252e2b4c057cfae5d6392a3bca5ffd106b9b67932b4b233ef29161f7"
     },
     {
       "path": "CONTRIBUTING.md",

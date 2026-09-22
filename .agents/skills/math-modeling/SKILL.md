@@ -52,6 +52,22 @@ Do not label a practice run as submission-ready merely to obtain a stronger-look
 
 ## Load References Selectively
 
+### Start With The Current Task
+
+Use the table as a first lookup, not a mandatory sequence or a limit on necessary evidence. The detailed list below is an on-demand index, not a read-all checklist. Do not restart model selection for a formatting-only request, or load export instructions merely to draft prose.
+
+| Current task | First reference | Expand only when triggered |
+| --- | --- | --- |
+| Receive a new problem / choose a model | [integration-routing.md](references/integration-routing.md) | `model-routing.md` for selection criteria; the selected model card and matching validation |
+| Draft one question from available evidence | [paper-expression-quick-card.md](references/paper-expression-quick-card.md) | `paper-narrative-rewrite.md` for missing reasoning bridges; the claim card for superiority/innovation or ambiguous metrics |
+| Revise existing prose | [paper-narrative-rewrite.md](references/paper-narrative-rewrite.md) | Claim card if scientific claims change; `docx_rewrite_safety.py` only for applicable DOCX paragraph edits |
+| Fix local formatting / export | [paper-production.md](references/paper-production.md) | `audit_docx_local_format.py` for format-only scope; visual review guidance for rendered output |
+| Prepare the final package | [paper-closeout.md](references/paper-closeout.md) | Current competition compliance, submission checklist and actual delivery requirements |
+
+On resume, first resolve the existing case authority using `single-operator-live-runbook.md`; a new prose request does not authorize switching result sources. Live-competition rules/AI records and applicable scientific checks remain mandatory regardless of the row. Model/data/result changes reopen their affected validation; a narrow task is not a gate bypass. Use optional references only when their stated trigger applies, and record unavailable checks rather than calling them passed.
+
+### Detailed Reference Index
+
 - Read [competition-readiness-roadmap-2026.md](references/competition-readiness-roadmap-2026.md) when planning pre-contest improvements, deciding whether downloaded material should enter the production workflow, auditing tool readiness, or scheduling rehearsals and the feature freeze.
 - Read [failure-prevention.md](references/failure-prevention.md) after a blocked build, paper export, permission issue, or quality-gate failure; inspect the latest case-local `rehearsal/failure-events.jsonl`, record the incident, and promote verified fixes into scripts, tests, templates, or case runbooks.
 - Read [local-library.md](references/local-library.md) when searching or choosing local material.

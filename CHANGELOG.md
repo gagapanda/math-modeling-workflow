@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a five-task first-reference lookup for problem/model selection, drafting, prose revision, formatting/export and packaging. References load on demand; scientific validation and competition compliance remain mandatory. This documentation change does not claim automatic routing or fresh-context reliability.
+
 - 2026-09-22 validation: public suite 467 tests, OK with 5 skipped; private full suite 497 tests, OK with 2 skipped and 14 historical read-only checks. Public historical cases are intentionally excluded. Source inventory passed. Synthetic Word export was checked locally; public Word automation and universal rendering compatibility are not claimed.
 
 - Add explicit per-segment DOCX style-donor helpers and compatibility namespace checks, with eight synthetic regression tests. Word compatibility still requires an actual available Word export; the public repository does not bundle private Word automation.
