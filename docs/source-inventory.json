@@ -2909,13 +2909,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "432ca901252e2b4c057cfae5d6392a3bca5ffd106b9b67932b4b233ef29161f7",
+      "sha256": "4e624f4c6788f30905939fe111ca498e3c74a75004e40576e8a1511fcca0040b",
       "source_class": "project_candidate",
       "source_reference": "B: public scaffold / CHANGELOG.md; 2026-09-22 reviewed task-first entry documentation update",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded project_candidate provenance. Does not relicense third-party dependencies.",
-      "migration_destination_sha256": "432ca901252e2b4c057cfae5d6392a3bca5ffd106b9b67932b4b233ef29161f7"
+      "migration_destination_sha256": "4e624f4c6788f30905939fe111ca498e3c74a75004e40576e8a1511fcca0040b"
     },
     {
       "path": "CONTRIBUTING.md",
@@ -3227,6 +3227,15 @@
       "migration_decision": "MIGRATED_UNCHANGED",
       "migration_destination_sha256": "c0afd0b9e358f43400791ee0638ec3bbdfdc73d4f16cb4cf769d3d8060526f15",
       "sha256": "c0afd0b9e358f43400791ee0638ec3bbdfdc73d4f16cb4cf769d3d8060526f15"
+    },
+    {
+      "path": "tests/test_equation_tag_contract.py",
+      "sha256": "11df992d6a66c5f237c3e31f92d36833fc76b9176bb02ac7535920aae1189229",
+      "source_class": "project_source_2026-09-24",
+      "source_reference": "New synthetic equation-tag regression tests; no contest data or third-party source",
+      "license_expression": "MIT",
+      "authorization_status": "confirmed",
+      "authorization_evidence": "Continuation of user-authorized MIT project-source distribution documented in docs/release-sources.md."
     }
   ],
   "origin_confirmations": [

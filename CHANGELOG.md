@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add four synthetic equation-tag regressions for the existing public exporter: mixed math, visible numbering, duplicate labels and unsupported syntax. No private Word exporter is bundled.
+
 - Add a five-task first-reference lookup for problem/model selection, drafting, prose revision, formatting/export and packaging. References load on demand; scientific validation and competition compliance remain mandatory. This documentation change does not claim automatic routing or fresh-context reliability.
 
 - 2026-09-22 validation: public suite 467 tests, OK with 5 skipped; private full suite 497 tests, OK with 2 skipped and 14 historical read-only checks. Public historical cases are intentionally excluded. Source inventory passed. Synthetic Word export was checked locally; public Word automation and universal rendering compatibility are not claimed.
