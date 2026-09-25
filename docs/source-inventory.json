@@ -636,14 +636,14 @@
     },
     {
       "path": ".agents/skills/math-modeling/references/paper-narrative-rewrite.md",
-      "sha256": "781cb604f4f152c6bc3964b7e73e12dcd7ef7bb314f1f3de9695f47b9cff7afc",
+      "sha256": "dac5575fb0c57d9edeaba5bb17021fcdaa7b23ead3173bb0f523cb1b59320188",
       "source_class": "project_source_2026-09-15",
-      "source_reference": "Current workflow source reviewed for the 2026-09-15 public update",
+      "source_reference": "Current workflow source reviewed for the 2026-09-15 public update; reviewed generic prediction-writing example 2026-09-26",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "original_source_sha256": "768a768bac0b3c87cece55999330e88bd65280720761cd79847d2b77554fea44",
       "migration_decision": "MIGRATED_UNCHANGED",
-      "migration_destination_sha256": "b81bf14bcaa870d15e5840b8e4ba02224e3290a2988e652b974a57daa35411d4",
+      "migration_destination_sha256": "dac5575fb0c57d9edeaba5bb17021fcdaa7b23ead3173bb0f523cb1b59320188",
       "authorization_evidence": "Continuation of the repository's user-authorized MIT project-source policy; the 2026-09-15 release excludes private evidence, third-party templates, fonts, binaries, and generated outputs."
     },
     {
@@ -2909,13 +2909,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "4e624f4c6788f30905939fe111ca498e3c74a75004e40576e8a1511fcca0040b",
+      "sha256": "da9dd764a2b18a8569d158db4abaad0249919d973baceb5029fd03633ef2b0a0",
       "source_class": "project_candidate",
-      "source_reference": "B: public scaffold / CHANGELOG.md; 2026-09-22 reviewed task-first entry documentation update",
+      "source_reference": "B: public scaffold / CHANGELOG.md; 2026-09-22 reviewed task-first entry documentation update; reviewed generic prediction-writing example 2026-09-26",
       "license_expression": "MIT",
       "authorization_status": "confirmed",
       "authorization_evidence": "docs/release-sources.md: C4 user-authorized permissive project distribution; C3 initial-origin confirmation and recorded project_candidate provenance. Does not relicense third-party dependencies.",
-      "migration_destination_sha256": "4e624f4c6788f30905939fe111ca498e3c74a75004e40576e8a1511fcca0040b"
+      "migration_destination_sha256": "da9dd764a2b18a8569d158db4abaad0249919d973baceb5029fd03633ef2b0a0"
     },
     {
       "path": "CONTRIBUTING.md",

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a generic prediction narrative example and clarify aggregation/quantile semantics in the existing writing guide. No private case data, third-party paper excerpts or new gates are included.
+
 - Add four synthetic equation-tag regressions for the existing public exporter: mixed math, visible numbering, duplicate labels and unsupported syntax. No private Word exporter is bundled.
 
 - Add a five-task first-reference lookup for problem/model selection, drafting, prose revision, formatting/export and packaging. References load on demand; scientific validation and competition compliance remain mandatory. This documentation change does not claim automatic routing or fresh-context reliability.
